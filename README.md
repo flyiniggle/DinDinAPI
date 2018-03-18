@@ -1,2 +1,2 @@
-#DinDin API
-###REST API for DinDIn storage
+# DinDin API
+### REST API for DinDIn storage
