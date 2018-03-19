@@ -28,7 +28,9 @@ SECRET_KEY = '(m(u^ii#7w886+ny4z5y)%l7ra4070=yd#j@o0y4qsal2qhl73'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'dindinwebapi.herokuapp.com',
+]
 
 
 # Application definition
