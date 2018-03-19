@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'rest_framework',
     'meals',
+    'users',
 ]
 
 MIDDLEWARE = [
