@@ -3,7 +3,7 @@ from meals.models import Meal
 from meals.serializers import MealSerializer
 
 
-class MealList(generics.ListAPIView):
+class MealList(generics.ListCreateAPIView):
     queryset = Meal.objects.all()
     serializer_class = MealSerializer
 
