@@ -43,8 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'rest_framework',
     'meals',
-    'users',
 ]
+
+#AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
