@@ -7,6 +7,6 @@ class MealList(generics.ListAPIView):
     queryset = Meal.objects.all()
     serializer_class = MealSerializer
 
-class MealDetail(generics.RetrieveAPIView):
+class MealDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Meal.objects.all()
     serializer_class = MealSerializer
