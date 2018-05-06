@@ -142,3 +142,21 @@ class MealsTest(TestCase):
         self.assertEqual(meal.last_used, date_used)
         self.assertEqual(meal.used_count, self.new_meal_data.get("used_count"))
         self.assertEqual(meal.notes, "")
+
+    def test_post_meals_creates_a_meal_with_used_count_of_0(self):
+        data = {key:self.new_meal_data[key] for key in self.new_meal_data if key != "used_count"}
+        self.client.login(username="test", password="testing123")
+        self.client.post("/meals/", data, format="json")
+        self.client.logout()
+        meal = Meal.objects.get(name="turkey goop")
+
+        self.assertEqual(meal.used_count, 0)
+
+    def test_post_meals_creates_a_meal_with_no_last_used_date(self):
+        data = {key:self.new_meal_data[key] for key in self.new_meal_data if key != "last_used"}
+        self.client.login(username="test", password="testing123")
+        self.client.post("/meals/", data, format="json")
+        self.client.logout()
+        meal = Meal.objects.get(name="turkey goop")
+
+        self.assertIsNone(meal.last_used)
