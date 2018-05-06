@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory, force_authenticate
 from django.contrib.auth.models import User
@@ -7,6 +8,14 @@ from meals.models import Meal
 
 class MealsTest(TestCase):
     fixtures = ['mealsdump.json', 'authdump.json',]
+    new_meal_data = {
+        "name": "turkey goop",
+        "taste": 3,
+        "difficulty": 2,
+        "last_used": "2018-03-13",
+        "used_count": 4,
+        "notes": "classic"
+    }
 
     def test_get_meals_returns_200_status(self):
         view = MealList.as_view()
@@ -67,35 +76,69 @@ class MealsTest(TestCase):
         for meal in data:
             self.assertEquals(meal.get("owner"), "admin")
 
+    def test_post_meals_returns_201_status(self):
+        view = MealList.as_view()
+        factory = APIRequestFactory()
+        request = factory.post('meals', self.new_meal_data, format='json')
+        user = User.objects.get(username='test')
+        force_authenticate(request, user=user)
+        response = view(request)
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_text, 'Created')
+
+    def test_post_meals_returns_401_status_if_not_logged_in(self):
+        view = MealList.as_view()
+        factory = APIRequestFactory()
+        request = factory.post('meals', self.new_meal_data, format='json')
+        response = view(request)
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_text, 'Unauthorized')
+
     def test_post_meals_creates_new_meal_entry(self):
-        data = {
-            "name": "turkey goop",
-            "taste": 3,
-            "difficulty": 2,
-            "last_used": "2018-03-13",
-            "used_count": 4,
-            "notes": "classic"
-        }
         self.client.login(username="test", password="testing123")
-        self.client.post("/meals/", data, format="json")
+        self.client.post("/meals/", self.new_meal_data, format="json")
         self.client.logout()
         meal = Meal.objects.filter(name="turkey goop")
 
         self.assertEqual(len(meal), 1)
 
-
     def test_post_meals_associates_meal_with_owner(self):
-        data = {
-            "name": "turkey goop",
-            "taste": 3,
-            "difficulty": 2,
-            "last_used": "2018-03-13",
-            "used_count": 4,
-            "notes": "classic"
-        }
         self.client.login(username="test", password="testing123")
-        self.client.post("/meals/", data, format="json")
+        self.client.post("/meals/", self.new_meal_data, format="json")
         self.client.logout()
         meal = Meal.objects.filter(name="turkey goop")
 
         self.assertEqual(meal[0].owner, User.objects.get(username="test"))
+
+    def test_post_meals_saves_form_data(self):
+        self.client.login(username="test", password="testing123")
+        self.client.post("/meals/", self.new_meal_data, format="json")
+        self.client.logout()
+        meal = Meal.objects.get(name="turkey goop")
+
+        date_used = datetime.strptime(self.new_meal_data.get("last_used"), "%Y-%m-%d").date()
+
+        self.assertEqual(meal.name, self.new_meal_data.get("name"))
+        self.assertEqual(meal.taste, self.new_meal_data.get("taste"))
+        self.assertEqual(meal.difficulty, self.new_meal_data.get("difficulty"))
+        self.assertEqual(meal.last_used, date_used)
+        self.assertEqual(meal.used_count, self.new_meal_data.get("used_count"))
+        self.assertEqual(meal.notes, self.new_meal_data.get("notes"))
+
+    def test_post_meals_notes_are_optional(self):
+        data = {key:self.new_meal_data[key] for key in self.new_meal_data if key != "notes"}
+        self.client.login(username="test", password="testing123")
+        self.client.post("/meals/", data, format="json")
+        self.client.logout()
+        meal = Meal.objects.get(name="turkey goop")
+
+        date_used = datetime.strptime(self.new_meal_data.get("last_used"), "%Y-%m-%d").date()
+
+        self.assertEqual(meal.name, self.new_meal_data.get("name"))
+        self.assertEqual(meal.taste, self.new_meal_data.get("taste"))
+        self.assertEqual(meal.difficulty, self.new_meal_data.get("difficulty"))
+        self.assertEqual(meal.last_used, date_used)
+        self.assertEqual(meal.used_count, self.new_meal_data.get("used_count"))
+        self.assertEqual(meal.notes, "")
