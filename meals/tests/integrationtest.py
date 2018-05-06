@@ -47,14 +47,15 @@ class MealsTest(TestCase):
         data = response.data
 
         for meal in data:
-            self.assertIn("pk", meal)
-            self.assertIn("name", meal)
-            self.assertIn("owner", meal)
-            self.assertIn("taste", meal)
-            self.assertIn("difficulty", meal)
-            self.assertIn("last_used", meal)
-            self.assertIn("used_count", meal)
-            self.assertIn("notes", meal)
+            with self.subTest(meal=meal):
+                self.assertIn("pk", meal)
+                self.assertIn("name", meal)
+                self.assertIn("owner", meal)
+                self.assertIn("taste", meal)
+                self.assertIn("difficulty", meal)
+                self.assertIn("last_used", meal)
+                self.assertIn("used_count", meal)
+                self.assertIn("notes", meal)
 
     def test_get_meals_returns_meals_for_specified_user(self):
         view = MealList.as_view()
@@ -66,7 +67,8 @@ class MealsTest(TestCase):
         data = response.data
 
         for meal in data:
-            self.assertEquals(meal.get("owner"), "test")
+            with self.subTest(meal=meal):
+                self.assertEquals(meal.get("owner"), "test")
 
 
         user = User.objects.get(username='admin')
@@ -75,7 +77,8 @@ class MealsTest(TestCase):
         data = response.data
 
         for meal in data:
-            self.assertEquals(meal.get("owner"), "admin")
+            with self.subTest(meal=meal):
+                self.assertEquals(meal.get("owner"), "admin")
 
     def test_post_meals_returns_201_status(self):
         view = MealList.as_view()
