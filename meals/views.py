@@ -11,10 +11,11 @@ class MealList(generics.ListCreateAPIView):
         user = self.request.user
         return Meal.objects.filter(owner=user)
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
 class MealDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Meal.objects.all()
     serializer_class = MealSerializer
     permission_classes = (permissions.IsAuthenticated,)
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
