@@ -238,7 +238,7 @@
     "pk": 2,
     "fields": {
         "password": "pbkdf2_sha256$100000$6VMd12jQBdiw$5YuVk2bPNGXcPCmWGhexJZwdV00uY7R/jDEPIfn1ODw=",
-        "last_login": "2018-05-05T19:21:13Z",
+        "last_login": "2018-05-05T20:10:01.096Z",
         "is_superuser": false,
         "username": "test",
         "first_name": "Jamal",

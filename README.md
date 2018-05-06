@@ -13,4 +13,5 @@ python manage.py runserver
 ```buildoutcfg
 python manage.py dumpdata meals --format=json --indent=4 > ./meals/fixtures/mealsdump.json
 python manage.py dumpdata auth --format=json --indent=4 > ./meals/fixtures/authdump.json
+python manage.py dumpdata authtoken --format=json --indent=4 > ./meals/fixtures/tokendump.json
 ```

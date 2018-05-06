@@ -47,3 +47,12 @@ class MealsTest(TestCase):
 
         for meal in data:
             self.assertEquals(meal.get("owner"), "test")
+
+
+        user = User.objects.get(username='admin')
+        force_authenticate(request, user=user)
+        response = view(request)
+        data = response.data
+
+        for meal in data:
+            self.assertEquals(meal.get("owner"), "admin")
