@@ -1,0 +1,54 @@
+[
+{
+    "model": "meals.meal",
+    "pk": 1,
+    "fields": {
+        "owner": 1,
+        "name": "Ribs",
+        "taste": 5,
+        "difficulty": 5,
+        "last_used": "2017-05-06",
+        "used_count": 1,
+        "notes": "Pretty solid"
+    }
+},
+{
+    "model": "meals.meal",
+    "pk": 3,
+    "fields": {
+        "owner": 1,
+        "name": "Chicken and Dumplings",
+        "taste": 4,
+        "difficulty": 4,
+        "last_used": "2018-01-06",
+        "used_count": 1,
+        "notes": "yum"
+    }
+},
+{
+    "model": "meals.meal",
+    "pk": 4,
+    "fields": {
+        "owner": 1,
+        "name": "japchae",
+        "taste": 4,
+        "difficulty": 2,
+        "last_used": "2018-05-03",
+        "used_count": 1,
+        "notes": "from martha stewert. add sweet chili paste though"
+    }
+},
+{
+    "model": "meals.meal",
+    "pk": 5,
+    "fields": {
+        "owner": 1,
+        "name": "japchae",
+        "taste": 4,
+        "difficulty": 2,
+        "last_used": "2018-05-03",
+        "used_count": 1,
+        "notes": "from martha stewert. add sweet chili paste though"
+    }
+}
+]
