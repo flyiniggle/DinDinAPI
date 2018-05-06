@@ -47,6 +47,7 @@ class MealsTest(TestCase):
         data = response.data
 
         for meal in data:
+            self.assertIn("pk", meal)
             self.assertIn("name", meal)
             self.assertIn("owner", meal)
             self.assertIn("taste", meal)

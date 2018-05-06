@@ -6,4 +6,4 @@ class MealSerializer(serializers.HyperlinkedModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model = Meal
-        fields = ('name', 'owner', 'taste', 'difficulty', 'last_used', 'used_count', 'notes')
+        fields = ('pk', 'name', 'owner', 'taste', 'difficulty', 'last_used', 'used_count', 'notes')
