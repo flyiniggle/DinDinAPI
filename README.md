@@ -15,3 +15,8 @@ python manage.py dumpdata meals --format=json --indent=4 > ./meals/fixtures/meal
 python manage.py dumpdata auth --format=json --indent=4 > ./meals/fixtures/authdump.json
 python manage.py dumpdata authtoken --format=json --indent=4 > ./meals/fixtures/tokendump.json
 ```
+
+## Running tests
+```buildoutcfg
+python manage.py test --pattern="*test.py"
+```
