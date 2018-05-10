@@ -5,7 +5,7 @@ services: postgresql
 env:
 - DJANGO=2.0.3
 before_install:
-- export DJANGO_SETTINGS_MODULE=your_project.settings
+- export DJANGO_SETTINGS_MODULE=DinDinAPI.settings
 - export PYTHONPATH=$HOME/builds/flyiniggle/DinDinAPI
 - export PIP_USE_MIRRORS=true
 install:
