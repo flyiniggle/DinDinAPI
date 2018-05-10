@@ -1,0 +1,25 @@
+language: python
+python:
+- '3.6'
+services: postgresql
+env:
+- DJANGO=2.0.3
+before_install:
+- export DJANGO_SETTINGS_MODULE=your_project.settings
+- export PYTHONPATH=$HOME/builds/flyiniggle/DinDinAPI
+- export PIP_USE_MIRRORS=true
+install:
+- pip install -r requirements.txt
+- pip install django==$DJANGO --quiet
+- pip install psycopg2 --quiet
+before_script:
+- psql -c "CREATE DATABASE mydb;" -U postgres
+script:
+- python manage.py syncdb --noinput
+- python manage.py test --pattern="*test.py"
+deploy:
+  provider: heroku
+  app: dindinapi
+  skip_cleanup: true
+  api_key:
+    secure: BqzJqY0PbCgGXyIjSgcuGJYOhmSyKvcBtva+1XPM9aa/9JlIPEeQC5xLc3wYXDV/7P8M4NmjUF7P1f7vt7wAh90Tg5rxU1T8KKtUxHEeifu/7IO1g3AjPg3N1P9TNPxvoxBaGHi1Mf3UzrgFAokNRHb8zdDmAwfiFAm8+koEZy/cruw1RNGLSRZHTBjmVmyZQDsQ8m7qUs8H258Pnw86xTZDYUvId1HlaR24lkAR5uhYGX35D7OW5vTGCIrffA6Tw6G1y3dKy+nbWaF85qBpf28nMvbLyPmNqitJUwHQmcVoFh5Zi5nSwydlwYxOjKjjVC0qTICH33kx+2XGaTfUmaIw9ATF4W8mTcN1/QphaJRDMIyHL4AdVTuNCqmv8ecAtYFqf4+4ZlWOPeEX9D5stjBNEueED8B1dW6kI6wK+acq267P/bxYQtYaRJbDR+xXY7e1CImCoNduj51/j/CoaWDGKYRS+MFOPch3N1S2LTmdbK8Baiek4dtxLBDjpGzKUu2s4JyIOjTqCA9wagjl70CFzT1NJZXBOOfiaN0TN43CG8AYBypeMzmT3sXe76nofWAMhQtKDM221M56qM23egMawzz2K7rBpK/SUGVZEWglv50WM8BlgpCB5jzaKOmPdVege2kxxOh6Tk6gJHeXDBZIphLZCRDQivxlbCIrnec=
