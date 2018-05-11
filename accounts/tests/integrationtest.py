@@ -9,6 +9,7 @@ from accounts.views import UserCreate
 
 
 class AccountsTest(APITestCase):
+    fixtures = ['authdump.json']
     test_data = {
         'username': 'Ontario',
         'email': 'foobar@example.com',
@@ -43,7 +44,7 @@ class AccountsTest(APITestCase):
         factory = APIRequestFactory()
         request = factory.post("/users/create", self.test_data, format='json')
         response = view(request)
-        self.assertFalse('password' in response.data)
+        self.assertNotIn('password', response.data)
 
     def test_create_user_creates_auth_token_for_new_user(self):
         view = UserCreate.as_view()
@@ -57,3 +58,96 @@ class AccountsTest(APITestCase):
         except ObjectDoesNotExist:
             self.fail("No token was created on user creation.")
 
+    def test_create_user_fails_with_no_user_name(self):
+        view = UserCreate.as_view()
+        factory = APIRequestFactory()
+        request = factory.post("/users/create", {"email": "me@home.com", "password": "superstrong!"}, format='json')
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("username", response.data)
+
+    def test_create_user_fails_with_duplicate_user_name(self):
+        view = UserCreate.as_view()
+        factory = APIRequestFactory()
+        existing_user = User.objects.first()
+        request = factory.post("/users/create",
+                               {"username": existing_user.username, "email": "me@home.com", "password": "superstrong!"},
+                               format='json')
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("username", response.data)
+
+    def test_create_user_fails_with_no_email(self):
+        view = UserCreate.as_view()
+        factory = APIRequestFactory()
+        request = factory.post("/users/create", {"username": "Shaq", "password": "superstrong!"}, format='json')
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("email", response.data)
+
+    def test_create_user_fails_with_invalid_email(self):
+        view = UserCreate.as_view()
+        factory = APIRequestFactory()
+        request = factory.post("/users/create",
+                               {"username": "Shaq", "email": "meh", "password": "superstrong!"},
+                               format='json')
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("email", response.data)
+
+    def test_create_user_fails_with_no_password(self):
+        view = UserCreate.as_view()
+        factory = APIRequestFactory()
+        request = factory.post("/users/create", {"username": "Shaq", "email": "me@home.com"}, format='json')
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("password", response.data)
+
+    def test_create_user_fails_with_short_password(self):
+        view = UserCreate.as_view()
+        factory = APIRequestFactory()
+        request = factory.post("/users/create",
+                               {"username": "Shaq", "email": "me@home.com", "password": "hey"},
+                               format='json')
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("password", response.data)
+
+    def test_create_user_fails_with_similar_password_and_username(self):
+        view = UserCreate.as_view()
+        factory = APIRequestFactory()
+        request = factory.post("/users/create",
+                               {"username": "iamawesome", "email": "me@home.com", "password": "iamawesome"},
+                               format='json')
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("password", response.data)
+
+    def test_create_user_fails_with_common_passwords(self):
+        view = UserCreate.as_view()
+        factory = APIRequestFactory()
+        request = factory.post("/users/create",
+                               {"username": "Shaq", "email": "me@home.com", "password": "password"},
+                               format='json')
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("password", response.data)
+
+    def test_create_user_fails_with_numeric_passwords(self):
+        view = UserCreate.as_view()
+        factory = APIRequestFactory()
+        request = factory.post("/users/create",
+                               {"username": "Shaq", "email": "me@home.com", "password": "11111111111111"},
+                               format='json')
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("password", response.data)
