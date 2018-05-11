@@ -1,6 +1,8 @@
 # DinDin API
 ### REST API for DinDIn storage
 
+[![Build Status](https://travis-ci.org/flyiniggle/DinDinAPI.svg?branch=master)](https://travis-ci.org/flyiniggle/DinDinAPI)
+
 ## Dev Setup
 ```buildoutcfg
 python manage.py migrate
