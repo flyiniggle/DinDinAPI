@@ -6,19 +6,18 @@ from django.core import exceptions
 
 
 class UserSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(
-            required=True,
-            validators=[UniqueValidator(queryset=User.objects.all())]
-            )
-    username = serializers.CharField(
-            validators=[UniqueValidator(queryset=User.objects.all())]
-            )
-    password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+    email = serializers.EmailField(required=True,
+                                   validators=[UniqueValidator(queryset=User.objects.all())])
+
+    username = serializers.CharField(validators=[UniqueValidator(queryset=User.objects.all())])
+
+    password = serializers.CharField(style={'input_type': 'password'},
+                                     write_only=True)
 
     def create(self, validated_data):
-        user = User.objects.create_user(validated_data['username'], validated_data['email'],
-             validated_data['password'])
-        return user
+        return User.objects.create_user(validated_data['username'],
+                                        validated_data['email'],
+                                        validated_data['password'])
 
     def validate_password(self, password):
         user = User(**self.initial_data)
@@ -36,6 +35,9 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(errors)
 
         return super(UserSerializer, self).validate(password)
+
+    def get(self, request, *args, **kargs):
+        return self.retrieve(request)
 
     class Meta:
         model = User
