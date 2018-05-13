@@ -1,4 +1,9 @@
-[report]
+[run]
+source =
+    DinDinAPI/*
+    meals/*
+    accounts/*
+
 omit =
     */migrations/*
      manage.py
