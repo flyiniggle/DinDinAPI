@@ -3,6 +3,7 @@ from accounts.serializers import UserSerializer
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.shortcuts import get_object_or_404
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 
@@ -28,3 +29,12 @@ class UserList(generics.ListAPIView) :
 class UserDetail(generics.RetrieveAPIView):
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        return User.objects.all()
+
+    def get_object(self):
+        user = self.request.user
+        obj = get_object_or_404(self.get_queryset(), username=user.username)
+        self.check_object_permissions(self.request, obj)
+        return obj
