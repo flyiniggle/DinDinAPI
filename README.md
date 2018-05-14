@@ -21,11 +21,11 @@ python manage.py dumpdata authtoken --format=json --indent=4 > ./meals/fixtures/
 
 ## Running tests
 ```buildoutcfg
-python manage.py test --pattern="*test.py"
+python manage.py test --pattern="*Test.py"
 ```
 
 ## Running tests with coverage
 ```buildoutcfg
-coverage run manage.py test --pattern="*test.py"
+coverage run manage.py test --pattern="*Test.py"
 coverage report -m
 ```
