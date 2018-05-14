@@ -1,12 +1,15 @@
 [run]
 source =
-    DinDinAPI/*
-    meals/*
-    accounts/*
+    DinDinAPI
+    meals
+    accounts
 
 omit =
+    settings.py
+    manage.py
+    */wsgi.py
+    */admin.py
+    */apps.py
     */migrations/*
-     manage.py
-     */tests/*
-     */admin.py
-     */fixtures/*
+    */tests/*
+    */fixtures/*
