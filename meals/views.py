@@ -1,3 +1,4 @@
+from itertools import chain
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions
 from meals.models import Meal
@@ -17,13 +18,10 @@ class MealList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return Meal.objects.filter(owner=user)
-
-    def get_object(self):
-        key = self.kwargs["pk"]
-        obj = get_object_or_404(self.get_queryset(), pk=key)
-        self.check_object_permissions(self.request, obj)
-        return obj
+        my_meals = user.my_meals.all()
+        shared_meals = user.shared_meals.all()
+        meals = list(chain(my_meals, shared_meals))
+        return meals
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

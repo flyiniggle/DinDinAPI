@@ -20,10 +20,24 @@ class UserCreate(generics.CreateAPIView):
     permission_classes = (permissions.AllowAny,)
 
 
-class UserList(generics.ListAPIView) :
+class UserList(generics.ListAPIView):
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated,)
     queryset = User.objects.all()
+
+
+class UserProfile(generics.RetrieveAPIView):
+    serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        return User.objects.all()
+
+    def get_object(self):
+        user = self.request.user
+        obj = get_object_or_404(self.get_queryset(), username=user.username)
+        self.check_object_permissions(self.request, obj)
+        return obj
 
 
 class UserDetail(generics.RetrieveAPIView):
@@ -34,7 +48,6 @@ class UserDetail(generics.RetrieveAPIView):
         return User.objects.all()
 
     def get_object(self):
-        user = self.request.user
-        obj = get_object_or_404(self.get_queryset(), username=user.username)
+        obj = get_object_or_404(self.get_queryset(), id=self.kwargs["id"])
         self.check_object_permissions(self.request, obj)
         return obj

@@ -3,14 +3,14 @@ from django.contrib.auth.models import User
 from rest_framework.test import APIRequestFactory, force_authenticate
 from rest_framework import status
 
-from accounts.views import UserDetail
+from accounts.views import UserProfile
 
 
-class UserDetailTest(APITestCase):
+class UserProfileTest(APITestCase):
     fixtures = ['authdump.json']
 
     def test_get_user_detail_should_return_200(self):
-        view = UserDetail.as_view()
+        view = UserProfile.as_view()
         factory = APIRequestFactory()
         request = factory.get('users', format='json')
         user = User.objects.get(username='test')
@@ -20,7 +20,7 @@ class UserDetailTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_user_detail_should_return_401_if_unauthorized(self):
-        view = UserDetail.as_view()
+        view = UserProfile.as_view()
         factory = APIRequestFactory()
         request = factory.get('users', format='json')
         response = view(request)
@@ -28,7 +28,7 @@ class UserDetailTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_get_user_detail_should_return_profile_of_logged_in_user(self):
-        view = UserDetail.as_view()
+        view = UserProfile.as_view()
         factory = APIRequestFactory()
         request = factory.get('users', format='json')
         user = User.objects.get(username='test')

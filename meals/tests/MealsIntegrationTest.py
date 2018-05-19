@@ -51,6 +51,7 @@ class MealsTest(TestCase):
                 self.assertIn("pk", meal)
                 self.assertIn("name", meal)
                 self.assertIn("owner", meal)
+                self.assertIn("collaborators", meal)
                 self.assertIn("taste", meal)
                 self.assertIn("difficulty", meal)
                 self.assertIn("last_used", meal)
