@@ -1,16 +1,14 @@
 from meals.models import Meal
 from rest_framework import serializers
-from accounts.serializers import UserSerializer
-from django.contrib.auth.models import User
+from meals.fields import CollaboratorsField
 
 
 class MealSerializer(serializers.HyperlinkedModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
-    collaborators = UserSerializer(required=False, many=True)
+    collaborators = CollaboratorsField(many=True, required=False)
 
     def create(self, validated_data):
-        collaborator_ids = validated_data.get("collaborators", [])
-        collaborators = User.objects.filter(id__in=collaborator_ids)
+        collaborators = validated_data.get("collaborators", [])
         new_meal = {k:v for k, v in validated_data.items() if k != "collaborators"}
         meal = Meal(**new_meal)
         meal.save()
