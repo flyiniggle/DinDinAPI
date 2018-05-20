@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'meals',
+    'accounts',
 ]
 
 #AUTH_USER_MODEL = 'users.User'
