@@ -36,3 +36,13 @@ class Collaboration(APITestCase):
 
     def test_decline_collaboration(self):
         pass
+
+    def test_add_collaboration_to_existing_meal(self):
+        pass
+
+    def test_owner_remove_collaborator_from_existing_meal(self):
+        pass
+
+    def test_collaborator_remove_self_from_existing_meal(self):
+        pass
+    
