@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 import django.contrib.auth.password_validation as validators
 from django.core import exceptions
 
+from accounts.models import PendingCollaboration
+
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True,
@@ -42,3 +44,13 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'password')
+
+
+class PendingCollaborationSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
+    collaborator = serializers.ReadOnlyField(source='collaborator.username')
+    meal = serializers.ReadOnlyField(source='meal.name')
+
+    class Meta:
+        model = PendingCollaboration
+        fields = ('owner', 'collaborator', 'password')
