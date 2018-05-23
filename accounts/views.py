@@ -1,5 +1,5 @@
 from rest_framework import generics, permissions
-from accounts.serializers import UserSerializer
+from accounts.serializers import UserSerializer, PendingCollaborationSerializer
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -51,3 +51,13 @@ class UserDetail(generics.RetrieveAPIView):
         obj = get_object_or_404(self.get_queryset(), id=self.kwargs["id"])
         self.check_object_permissions(self.request, obj)
         return obj
+
+
+class UserCollaborations(generics.ListAPIView):
+    serializer_class = PendingCollaborationSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        self.request.user
+        return []
+

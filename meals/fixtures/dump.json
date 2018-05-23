@@ -1,0 +1,520 @@
+[
+{
+    "model": "sessions.session",
+    "pk": "v5pu5tpkkdg6a68v2sdob7bc2vcp8lu0",
+    "fields": {
+        "session_data": "NzQzNTYwODRjZWViOGM3OWYxMWUyOTBhZWQ3MmQ0YjdkZjZjOGNhNDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI0ZmE4ZDk3OGFhMmI5NDg2ZjE0MTU2ODkxODE2YzdiMjgxYmNhMjRiIn0=",
+        "expire_date": "2018-06-06T00:02:39.685Z"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 1,
+    "fields": {
+        "name": "Can add log entry",
+        "content_type": 1,
+        "codename": "add_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 2,
+    "fields": {
+        "name": "Can change log entry",
+        "content_type": 1,
+        "codename": "change_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 3,
+    "fields": {
+        "name": "Can delete log entry",
+        "content_type": 1,
+        "codename": "delete_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 4,
+    "fields": {
+        "name": "Can add permission",
+        "content_type": 2,
+        "codename": "add_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 5,
+    "fields": {
+        "name": "Can change permission",
+        "content_type": 2,
+        "codename": "change_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 6,
+    "fields": {
+        "name": "Can delete permission",
+        "content_type": 2,
+        "codename": "delete_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 7,
+    "fields": {
+        "name": "Can add group",
+        "content_type": 3,
+        "codename": "add_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 8,
+    "fields": {
+        "name": "Can change group",
+        "content_type": 3,
+        "codename": "change_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 9,
+    "fields": {
+        "name": "Can delete group",
+        "content_type": 3,
+        "codename": "delete_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 10,
+    "fields": {
+        "name": "Can add user",
+        "content_type": 4,
+        "codename": "add_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 11,
+    "fields": {
+        "name": "Can change user",
+        "content_type": 4,
+        "codename": "change_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 12,
+    "fields": {
+        "name": "Can delete user",
+        "content_type": 4,
+        "codename": "delete_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 13,
+    "fields": {
+        "name": "Can add content type",
+        "content_type": 5,
+        "codename": "add_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 14,
+    "fields": {
+        "name": "Can change content type",
+        "content_type": 5,
+        "codename": "change_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 15,
+    "fields": {
+        "name": "Can delete content type",
+        "content_type": 5,
+        "codename": "delete_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 16,
+    "fields": {
+        "name": "Can add session",
+        "content_type": 6,
+        "codename": "add_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 17,
+    "fields": {
+        "name": "Can change session",
+        "content_type": 6,
+        "codename": "change_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 18,
+    "fields": {
+        "name": "Can delete session",
+        "content_type": 6,
+        "codename": "delete_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 19,
+    "fields": {
+        "name": "Can add meal",
+        "content_type": 7,
+        "codename": "add_meal"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 20,
+    "fields": {
+        "name": "Can change meal",
+        "content_type": 7,
+        "codename": "change_meal"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 21,
+    "fields": {
+        "name": "Can delete meal",
+        "content_type": 7,
+        "codename": "delete_meal"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 22,
+    "fields": {
+        "name": "Can add Token",
+        "content_type": 8,
+        "codename": "add_token"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 23,
+    "fields": {
+        "name": "Can change Token",
+        "content_type": 8,
+        "codename": "change_token"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 24,
+    "fields": {
+        "name": "Can delete Token",
+        "content_type": 8,
+        "codename": "delete_token"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 25,
+    "fields": {
+        "name": "Can add pending collaboration",
+        "content_type": 9,
+        "codename": "add_pendingcollaboration"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 26,
+    "fields": {
+        "name": "Can change pending collaboration",
+        "content_type": 9,
+        "codename": "change_pendingcollaboration"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 27,
+    "fields": {
+        "name": "Can delete pending collaboration",
+        "content_type": 9,
+        "codename": "delete_pendingcollaboration"
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$100000$AEu9hzxzyq0G$6Y2afe9qjmGT8OBQYSK2szf83O8KQcHWlUFCj8oW5M0=",
+        "last_login": "2018-05-23T00:02:39.685Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "Admin",
+        "last_name": "McAdminson",
+        "email": "admin@dindin.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2018-05-22T22:00:54Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$100000$GlVMbWnm8XW3$dZwMEseSc7BHfPSQhTAFPm3s6py2LeCOL70qZ7+VqlI=",
+        "last_login": "2018-05-22T23:07:50.793Z",
+        "is_superuser": false,
+        "username": "test1",
+        "first_name": "Jamal",
+        "last_name": "Herrington",
+        "email": "jamal@dindin.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2018-05-22T22:02:02Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$100000$dhrYQcyotvjP$eIcJ5/cXupoG8Zh5ZGgEBP9oRRE5suiGMcJuksd+DTE=",
+        "last_login": "2018-05-22T23:27:59.155Z",
+        "is_superuser": false,
+        "username": "test2",
+        "first_name": "Demitri",
+        "last_name": "Sharoon",
+        "email": "ds@dindin.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2018-05-22T22:03:59Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$100000$udCuFX5AlEM8$P2UKjJfsBkHy2/P5mTDd/lQRzTCNk5TypzEWx9lv1Qg=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "test3",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2018-05-22T22:05:15Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "meals.meal",
+    "pk": 10,
+    "fields": {
+        "owner": 1,
+        "name": "Gnocchi",
+        "taste": 5,
+        "difficulty": 5,
+        "last_used": "2018-05-22",
+        "used_count": 1,
+        "notes": "Don't knead too much; cut them small so they cook fast",
+        "collaborators": [
+            2
+        ]
+    }
+},
+{
+    "model": "meals.meal",
+    "pk": 11,
+    "fields": {
+        "owner": 1,
+        "name": "Ribs",
+        "taste": 5,
+        "difficulty": 5,
+        "last_used": "2018-05-10",
+        "used_count": 1,
+        "notes": "Is it summer yet?",
+        "collaborators": []
+    }
+},
+{
+    "model": "meals.meal",
+    "pk": 12,
+    "fields": {
+        "owner": 1,
+        "name": "Japchae",
+        "taste": 4,
+        "difficulty": 2,
+        "last_used": "2018-04-25",
+        "used_count": 1,
+        "notes": "From Martha Stewart",
+        "collaborators": []
+    }
+},
+{
+    "model": "meals.meal",
+    "pk": 13,
+    "fields": {
+        "owner": 1,
+        "name": "Grilled Veggie Sandwiches",
+        "taste": 2,
+        "difficulty": 2,
+        "last_used": "2018-05-01",
+        "used_count": 1,
+        "notes": "Eggplant, squashes, and hummus on bread.",
+        "collaborators": []
+    }
+},
+{
+    "model": "meals.meal",
+    "pk": 14,
+    "fields": {
+        "owner": 2,
+        "name": "turkey Goop",
+        "taste": 3,
+        "difficulty": 2,
+        "last_used": "2018-03-05",
+        "used_count": 2,
+        "notes": "",
+        "collaborators": []
+    }
+},
+{
+    "model": "meals.meal",
+    "pk": 15,
+    "fields": {
+        "owner": 2,
+        "name": "Fish Taco Bowls",
+        "taste": 3,
+        "difficulty": 3,
+        "last_used": "2018-05-22",
+        "used_count": 1,
+        "notes": "",
+        "collaborators": [
+            1
+        ]
+    }
+},
+{
+    "model": "meals.meal",
+    "pk": 16,
+    "fields": {
+        "owner": 2,
+        "name": "Roasted Butternut Squash with Sausage",
+        "taste": 2,
+        "difficulty": 3,
+        "last_used": "2018-01-13",
+        "used_count": 2,
+        "notes": "Don't forget the balsamic. Can make ahead.",
+        "collaborators": []
+    }
+},
+{
+    "model": "meals.meal",
+    "pk": 17,
+    "fields": {
+        "owner": 2,
+        "name": "Steak on Salad",
+        "taste": 3,
+        "difficulty": 3,
+        "last_used": "2018-05-25",
+        "used_count": 5,
+        "notes": "",
+        "collaborators": []
+    }
+},
+{
+    "model": "meals.meal",
+    "pk": 18,
+    "fields": {
+        "owner": 3,
+        "name": "Chicken Stir Fry",
+        "taste": 4,
+        "difficulty": 3,
+        "last_used": "2017-12-12",
+        "used_count": 6,
+        "notes": "",
+        "collaborators": [
+            1
+        ]
+    }
+},
+{
+    "model": "accounts.pendingcollaboration",
+    "pk": 1,
+    "fields": {
+        "owner": 1,
+        "meal": 10,
+        "collaborator": 2
+    }
+},
+{
+    "model": "accounts.pendingcollaboration",
+    "pk": 2,
+    "fields": {
+        "owner": 1,
+        "meal": 11,
+        "collaborator": 2
+    }
+},
+{
+    "model": "accounts.pendingcollaboration",
+    "pk": 3,
+    "fields": {
+        "owner": 2,
+        "meal": 14,
+        "collaborator": 1
+    }
+},
+{
+    "model": "accounts.pendingcollaboration",
+    "pk": 4,
+    "fields": {
+        "owner": 2,
+        "meal": 15,
+        "collaborator": 3
+    }
+},
+{
+    "model": "accounts.pendingcollaboration",
+    "pk": 5,
+    "fields": {
+        "owner": 2,
+        "meal": 16,
+        "collaborator": 1
+    }
+},
+{
+    "model": "accounts.pendingcollaboration",
+    "pk": 6,
+    "fields": {
+        "owner": 3,
+        "meal": 18,
+        "collaborator": 2
+    }
+},
+{
+    "model": "accounts.pendingcollaboration",
+    "pk": 7,
+    "fields": {
+        "owner": 3,
+        "meal": 18,
+        "collaborator": 1
+    }
+}
+]

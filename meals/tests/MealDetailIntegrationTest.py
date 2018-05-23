@@ -6,7 +6,7 @@ from meals.models import Meal
 
 
 class MealDetailTest(TestCase):
-    fixtures = ['mealsdump.json', 'authdump.json',]
+    fixtures = ['dump.json',]
 
     def test_get_meal_returns_200_status(self):
         client = APIClient()

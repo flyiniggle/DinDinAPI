@@ -9,7 +9,7 @@ from accounts.views import UserCreate
 
 
 class CreateUserTest(APITestCase):
-    fixtures = ['authdump.json']
+    fixtures = ['dump.json']
     test_data = {
         'username': 'Ontario',
         'email': 'foobar@example.com',

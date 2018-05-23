@@ -7,13 +7,13 @@ from accounts.views import UserProfile
 
 
 class UserProfileTest(APITestCase):
-    fixtures = ['authdump.json']
+    fixtures = ['dump.json']
 
     def test_get_user_detail_should_return_200(self):
         view = UserProfile.as_view()
         factory = APIRequestFactory()
         request = factory.get('users', format='json')
-        user = User.objects.get(username='test')
+        user = User.objects.get(username='test3')
         force_authenticate(request, user=user)
         response = view(request)
 
@@ -31,7 +31,7 @@ class UserProfileTest(APITestCase):
         view = UserProfile.as_view()
         factory = APIRequestFactory()
         request = factory.get('users', format='json')
-        user = User.objects.get(username='test')
+        user = User.objects.get(username='test2')
         force_authenticate(request, user=user)
         response = view(request)
         data = response.data
@@ -39,4 +39,4 @@ class UserProfileTest(APITestCase):
         self.assertIn("id", data)
         self.assertIn("email", data)
         self.assertIn("username", data)
-        self.assertEqual(data.get("username"), "test")
+        self.assertEqual(data.get("username"), "test2")

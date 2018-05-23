@@ -7,13 +7,13 @@ from accounts.views import UserList
 
 
 class UserListTest(APITestCase):
-    fixtures = ['authdump.json']
+    fixtures = ['dump.json']
 
     def test_get_users_should_return_200(self):
         view = UserList.as_view()
         factory = APIRequestFactory()
         request = factory.get('users', format='json')
-        user = User.objects.get(username='test')
+        user = User.objects.get(username='test3')
         force_authenticate(request, user=user)
         response = view(request)
 
@@ -31,7 +31,7 @@ class UserListTest(APITestCase):
         view = UserList.as_view()
         factory = APIRequestFactory()
         request = factory.get('users', format='json')
-        user = User.objects.get(username='test')
+        user = User.objects.get(username='test3')
         force_authenticate(request, user=user)
         response = view(request)
 

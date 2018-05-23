@@ -7,7 +7,7 @@ from meals.models import Meal
 
 
 class MealsTest(TestCase):
-    fixtures = ['mealsdump.json', 'authdump.json',]
+    fixtures = ['dump.json']
     new_meal_data = {
         "name": "turkey goop",
         "taste": 3,
@@ -21,7 +21,7 @@ class MealsTest(TestCase):
         view = MealList.as_view()
         factory = APIRequestFactory()
         request = factory.get('meals', format='json')
-        user = User.objects.get(username='test')
+        user = User.objects.get(username='test2')
         force_authenticate(request, user=user)
         response = view(request)
 
@@ -41,7 +41,7 @@ class MealsTest(TestCase):
         view = MealList.as_view()
         factory = APIRequestFactory()
         request = factory.get('meals', format='json')
-        user = User.objects.get(username='test')
+        user = User.objects.get(username='test2')
         force_authenticate(request, user=user)
         response = view(request)
         data = response.data
@@ -62,15 +62,15 @@ class MealsTest(TestCase):
         view = MealList.as_view()
         factory = APIRequestFactory()
         request = factory.get('meals', format='json')
-        user = User.objects.get(username='test')
+        user = User.objects.get(username='test1')
         force_authenticate(request, user=user)
         response = view(request)
         data = response.data
 
         for meal in data:
             with self.subTest(meal=meal):
-                self.assertEquals(meal.get("owner"), "test")
-
+                is_owner_or_collaborator = (meal.get("owner") == "test1") or user.shared_meals.filter(id=meal.get("pk")).exists()
+                self.assertTrue(is_owner_or_collaborator)
 
         user = User.objects.get(username='admin')
         force_authenticate(request, user=user)
@@ -79,13 +79,14 @@ class MealsTest(TestCase):
 
         for meal in data:
             with self.subTest(meal=meal):
-                self.assertEquals(meal.get("owner"), "admin")
+                is_owner_or_collaborator = (meal.get("owner") == "admin") or user.shared_meals.filter(id=meal.get("pk")).exists()
+                self.assertTrue(is_owner_or_collaborator)
 
     def test_post_meals_returns_201_status(self):
         view = MealList.as_view()
         factory = APIRequestFactory()
         request = factory.post('meals', self.new_meal_data, format='json')
-        user = User.objects.get(username='test')
+        user = User.objects.get(username='test1')
         force_authenticate(request, user=user)
         response = view(request)
 
@@ -102,7 +103,7 @@ class MealsTest(TestCase):
         self.assertEqual(response.status_text, 'Unauthorized')
 
     def test_post_meals_creates_new_meal_entry(self):
-        self.client.login(username="test", password="testing123")
+        self.client.login(username="test1", password="testing123")
         self.client.post("/meals/", self.new_meal_data, format="json")
         self.client.logout()
         meal = Meal.objects.filter(name="turkey goop")
@@ -110,15 +111,15 @@ class MealsTest(TestCase):
         self.assertEqual(len(meal), 1)
 
     def test_post_meals_associates_meal_with_owner(self):
-        self.client.login(username="test", password="testing123")
+        self.client.login(username="test2", password="testing123")
         self.client.post("/meals/", self.new_meal_data, format="json")
         self.client.logout()
         meal = Meal.objects.filter(name="turkey goop")
 
-        self.assertEqual(meal[0].owner, User.objects.get(username="test"))
+        self.assertEqual(meal[0].owner, User.objects.get(username="test2"))
 
     def test_post_meals_saves_form_data(self):
-        self.client.login(username="test", password="testing123")
+        self.client.login(username="test1", password="testing123")
         self.client.post("/meals/", self.new_meal_data, format="json")
         self.client.logout()
         meal = Meal.objects.get(name="turkey goop")
@@ -134,7 +135,7 @@ class MealsTest(TestCase):
 
     def test_post_meals_notes_are_optional(self):
         data = {key:self.new_meal_data[key] for key in self.new_meal_data if key != "notes"}
-        self.client.login(username="test", password="testing123")
+        self.client.login(username="test1", password="testing123")
         self.client.post("/meals/", data, format="json")
         self.client.logout()
         meal = Meal.objects.get(name="turkey goop")
@@ -150,18 +151,18 @@ class MealsTest(TestCase):
 
     def test_post_meals_creates_a_meal_with_used_count_of_0(self):
         data = {key:self.new_meal_data[key] for key in self.new_meal_data if key != "used_count"}
-        self.client.login(username="test", password="testing123")
+        self.client.login(username="test1", password="testing123")
         self.client.post("/meals/", data, format="json")
         self.client.logout()
-        meal = Meal.objects.get(name="turkey goop")
+        meal = Meal.objects.get(name=self.new_meal_data["name"])
 
         self.assertEqual(meal.used_count, 0)
 
     def test_post_meals_creates_a_meal_with_no_last_used_date(self):
         data = {key:self.new_meal_data[key] for key in self.new_meal_data if key != "last_used"}
-        self.client.login(username="test", password="testing123")
+        self.client.login(username="test1", password="testing123")
         self.client.post("/meals/", data, format="json")
         self.client.logout()
-        meal = Meal.objects.get(name="turkey goop")
+        meal = Meal.objects.get(name=self.new_meal_data["name"])
 
         self.assertIsNone(meal.last_used)
