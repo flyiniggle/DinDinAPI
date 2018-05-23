@@ -29,9 +29,10 @@ coverage run manage.py test --pattern="*Test.py"
 coverage report -m
 ```
 
-##Demo Data
+## Demo Data
 
-###Users
+### Users
+
 |User Name|First Name|Last Name|Password|Email|Super User|Staff|Owned Meals|Meals From Other Users|Meals From Other Users Pending Collaboration|Meals Pending Acceptance by Other Users|
 |--- |--- |--- |--- |--- |--- |--- |--- |--- |--- |--- |
 |admin|Admin|McAdminson|testing123|admin@dindin.com|true|true|4|2|3|2|
