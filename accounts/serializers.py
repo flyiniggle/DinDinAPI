@@ -47,10 +47,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class PendingCollaborationSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
-    collaborator = serializers.ReadOnlyField(source='collaborator.username')
-    meal = serializers.ReadOnlyField(source='meal.name')
+    owner_name = serializers.ReadOnlyField(source='owner.username')
+    collaborator_name = serializers.ReadOnlyField(source='collaborator.username')
+    meal_name = serializers.ReadOnlyField(source='meal.name')
 
     class Meta:
         model = PendingCollaboration
-        fields = ('owner', 'collaborator', 'password')
+        fields = ('owner_name', 'owner', 'collaborator_name', 'collaborator', 'meal_name', 'meal')

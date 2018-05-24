@@ -1,4 +1,5 @@
 from rest_framework import generics, permissions
+from accounts.models import PendingCollaboration
 from accounts.serializers import UserSerializer, PendingCollaborationSerializer
 from django.conf import settings
 from django.db.models.signals import post_save
@@ -58,6 +59,6 @@ class UserCollaborations(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
-        self.request.user
-        return []
+        user = self.request.user
+        return PendingCollaboration.objects.filter(collaborator=user)
 

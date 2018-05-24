@@ -1,12 +1,10 @@
-from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
-from rest_framework.test import APIRequestFactory, force_authenticate
 from rest_framework import status
+from rest_framework.test import APIRequestFactory, APITestCase, force_authenticate
 
-from accounts.views import UserProfile
-from meals.views import MealList
 from accounts.models import PendingCollaboration
 from accounts.views import UserCollaborations
+from meals.views import MealList
 
 
 class Collaboration(APITestCase):
@@ -31,7 +29,7 @@ class Collaboration(APITestCase):
 
         self.assertEqual(len(user.new_shared_meals.all()), 3)
 
-    def test_get_pending_collaborations(self):
+    def test_get_pending_collaborations_returns_200(self):
         view = UserCollaborations.as_view()
         factory = APIRequestFactory()
         request = factory.get("user/pending")
@@ -39,7 +37,28 @@ class Collaboration(APITestCase):
         force_authenticate(request, user=user)
         response = view(request)
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_pending_collaborations_returns_401_if_user_is_unauthenticated(self):
+        view = UserCollaborations.as_view()
+        factory = APIRequestFactory()
+        request = factory.get("user/pending")
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_get_pending_collaborations_returns_list_of_pending_shared_meals_for_user(self):
+        view = UserCollaborations.as_view()
+        factory = APIRequestFactory()
+        request = factory.get("user/pending")
+        user = User.objects.get(username='admin')
+        force_authenticate(request, user=user)
+        response = view(request)
+
+        pending_meals = PendingCollaboration.objects.filter(collaborator=user)
+        for pending_collaboration in response.data:
+            with self.subTest(pending_collaboration=pending_collaboration):
+                self.assertIsNotNone(pending_meals.filter(meal=pending_collaboration["meal"]))
 
     def test_accept_collaboration(self):
         pass
