@@ -1,5 +1,5 @@
 # DinDin API
-### REST API for DinDIn storage
+### REST API for DinDin storage
 
 [![Build Status](https://travis-ci.org/flyiniggle/DinDinAPI.svg?branch=master)](https://travis-ci.org/flyiniggle/DinDinAPI)
 [![Coverage Status](https://coveralls.io/repos/github/flyiniggle/DinDinAPI/badge.svg?branch=master)](https://coveralls.io/github/flyiniggle/DinDinAPI?branch=master)
