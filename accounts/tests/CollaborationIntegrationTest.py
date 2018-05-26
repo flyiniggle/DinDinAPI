@@ -65,14 +65,13 @@ class Collaboration(APITestCase):
     def test_accept_collaboration(self):
         client = self.client
         user = User.objects.get(username='test1')
+        meal = PendingCollaboration.objects.get(pk=1).meal
         client.force_authenticate(user=user)
         url = reverse("accounts:edit-pending-collaboration", kwargs={"id": 1})
         response = client.patch(url, {"accept": True}, format="json")
 
-        pending_collaboration = PendingCollaboration.objects.get(pk=1)
-
         self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
-        self.assertTrue(user.shared_meals.filter(meal=pending_collaboration.meal).exists())
+        self.assertTrue(user.shared_meals.filter(id=meal.id).exists())
 
     def test_accept_collaboration_removes_pending_collaboration(self):
         pending_collaboration = PendingCollaboration.objects.get(pk=1)

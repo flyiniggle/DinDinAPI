@@ -1,4 +1,5 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
+from rest_framework.response import Response
 from accounts.models import PendingCollaboration
 from accounts.serializers import UserSerializer, PendingCollaborationSerializer
 from django.conf import settings
@@ -63,6 +64,14 @@ class UserCollaborations(generics.ListAPIView, generics.UpdateAPIView):
         return PendingCollaboration.objects.filter(collaborator=user)
 
     def update(self, request, *args, **kwargs):
-        collaboration = self.get_queryset().filter(id=kwargs["id"])
+        collaboration = self.get_queryset().filter(id=kwargs["id"]).first()
+        accepted = request.data.get("accept", False)
+
+        if accepted:
+            collaboration.meal.collaborators.add(collaboration.collaborator)
+
+        collaboration.delete()
+
+        return Response(status=status.HTTP_202_ACCEPTED)
 
 
