@@ -333,9 +333,7 @@
         "last_used": "2018-05-22",
         "used_count": 1,
         "notes": "Don't knead too much; cut them small so they cook fast",
-        "collaborators": [
-            2
-        ]
+        "collaborators": []
     }
 },
 {
@@ -377,7 +375,9 @@
         "last_used": "2018-05-01",
         "used_count": 1,
         "notes": "Eggplant, squashes, and hummus on bread.",
-        "collaborators": []
+        "collaborators": [
+            2
+        ]
     }
 },
 {

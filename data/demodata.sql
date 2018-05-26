@@ -815,7 +815,7 @@ COPY meals_meal (id, name, taste, difficulty, last_used, used_count, notes, owne
 --
 
 COPY meals_meal_collaborators (id, meal_id, user_id) FROM stdin;
-5	10	2
+5	13	2
 6	15	1
 7	18	1
 \.

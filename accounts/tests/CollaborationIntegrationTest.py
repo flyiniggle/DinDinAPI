@@ -73,6 +73,17 @@ class Collaboration(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
         self.assertTrue(user.shared_meals.filter(id=meal.id).exists())
 
+    def test_accepct_collaboration_fails_if_not_logged_in(self):
+        client = self.client
+        user = User.objects.get(username='test1')
+        meal = PendingCollaboration.objects.get(pk=1).meal
+        url = reverse("accounts:edit-pending-collaboration", kwargs={"id": 1})
+        response = client.patch(url, {"accept": True}, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertFalse(user.shared_meals.filter(id=meal.id).exists())
+        self.assertTrue(PendingCollaboration.objects.filter(pk=1).exists())
+
     def test_accept_collaboration_removes_pending_collaboration(self):
         pending_collaboration = PendingCollaboration.objects.get(pk=1)
         client = self.client
