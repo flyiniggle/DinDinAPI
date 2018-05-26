@@ -4,6 +4,7 @@ from rest_framework.test import APIRequestFactory, APITestCase, force_authentica
 
 from accounts.models import PendingCollaboration
 from accounts.views import UserCollaborations
+from meals.models import Meal
 from meals.views import MealList
 
 
@@ -61,7 +62,27 @@ class Collaboration(APITestCase):
                 self.assertIsNotNone(pending_meals.filter(meal=pending_collaboration["meal"]))
 
     def test_accept_collaboration(self):
-        pass
+        pending_collaboration = PendingCollaboration.objects.get(pk=1)
+        view = UserCollaborations.as_view()
+        factory = APIRequestFactory()
+        request = factory.patch("user/pending/1", {"accept": True}, format="json")
+        user = User.objects.get(username='test1')
+        force_authenticate(request, user=user)
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
+        self.assertTrue(user.shared_meals.filter(meal=pending_collaboration.meal).exists())
+
+    def test_accept_collaboration_removes_pending_collaboration(self):
+        pending_collaboration = PendingCollaboration.objects.get(pk=1)
+        view = UserCollaborations.as_view()
+        factory = APIRequestFactory()
+        request = factory.patch("user/pending/1", {"accept": True}, format="json")
+        user = User.objects.get(username='test1')
+        force_authenticate(request, user=user)
+        view(request)
+
+        self.assertFalse(PendingCollaboration.objects.filter(meal=pending_collaboration.meal, collaborator=user.pk).exists())
 
     def test_decline_collaboration(self):
         pass
