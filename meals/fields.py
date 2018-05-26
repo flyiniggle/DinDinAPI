@@ -4,6 +4,8 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 class CollaboratorsField(serializers.PrimaryKeyRelatedField):
+    queryset = User.objects.all()
+
     def to_representation(self, value):
         return value.pk
 
@@ -12,6 +14,3 @@ class CollaboratorsField(serializers.PrimaryKeyRelatedField):
             return User.objects.get(pk=data)
         except ObjectDoesNotExist:
             return None
-
-    def get_queryset(self, **kwargs):
-        return User.objects.all()
