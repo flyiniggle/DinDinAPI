@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIRequestFactory, APITestCase, force_authenticate
 
@@ -62,25 +63,24 @@ class Collaboration(APITestCase):
                 self.assertIsNotNone(pending_meals.filter(meal=pending_collaboration["meal"]))
 
     def test_accept_collaboration(self):
-        pending_collaboration = PendingCollaboration.objects.get(pk=1)
-        view = UserCollaborations.as_view()
-        factory = APIRequestFactory()
-        request = factory.patch("user/pending/1", {"accept": True}, format="json")
+        client = self.client
         user = User.objects.get(username='test1')
-        force_authenticate(request, user=user)
-        response = view(request)
+        client.force_authenticate(user=user)
+        url = reverse("accounts:edit-pending-collaboration", kwargs={"id": 1})
+        response = client.patch(url, {"accept": True}, format="json")
+
+        pending_collaboration = PendingCollaboration.objects.get(pk=1)
 
         self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
         self.assertTrue(user.shared_meals.filter(meal=pending_collaboration.meal).exists())
 
     def test_accept_collaboration_removes_pending_collaboration(self):
         pending_collaboration = PendingCollaboration.objects.get(pk=1)
-        view = UserCollaborations.as_view()
-        factory = APIRequestFactory()
-        request = factory.patch("user/pending/1", {"accept": True}, format="json")
+        client = self.client
         user = User.objects.get(username='test1')
-        force_authenticate(request, user=user)
-        view(request)
+        client.force_authenticate(user=user)
+        url = reverse("accounts:edit-pending-collaboration", kwargs={"id": 1})
+        client.patch(url, {"accept": True}, format="json")
 
         self.assertFalse(PendingCollaboration.objects.filter(meal=pending_collaboration.meal, collaborator=user.pk).exists())
 

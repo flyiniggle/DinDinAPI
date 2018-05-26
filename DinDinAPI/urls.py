@@ -13,6 +13,6 @@ urlpatterns = [
     path('docs/', include_docs_urls(title='DinDin API', description='RESTful API for DinDin')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('meals/', include(meals.urls, namespace="meals")),
-    path('users/', include(accounts.urls, namespace="users")),
+    path('users/', include(accounts.urls, namespace="accounts")),
     path('api-token-auth/', views.obtain_auth_token)
 ]

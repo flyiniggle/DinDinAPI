@@ -54,11 +54,15 @@ class UserDetail(generics.RetrieveAPIView):
         return obj
 
 
-class UserCollaborations(generics.ListAPIView):
+class UserCollaborations(generics.ListAPIView, generics.UpdateAPIView):
     serializer_class = PendingCollaborationSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
         user = self.request.user
         return PendingCollaboration.objects.filter(collaborator=user)
+
+    def update(self, request, *args, **kwargs):
+        collaboration = self.get_queryset().filter(id=kwargs["id"])
+
 
