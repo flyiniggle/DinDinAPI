@@ -5,7 +5,6 @@ from rest_framework.test import APIRequestFactory, APITestCase, force_authentica
 
 from accounts.models import PendingCollaboration
 from accounts.views import UserCollaborations
-from meals.models import Meal
 from meals.views import MealList
 
 
@@ -95,7 +94,26 @@ class Collaboration(APITestCase):
         self.assertFalse(PendingCollaboration.objects.filter(meal=pending_collaboration.meal, collaborator=user.pk).exists())
 
     def test_decline_collaboration(self):
-        pass
+        client = self.client
+        user = User.objects.get(username='test1')
+        meal = PendingCollaboration.objects.get(pk=1).meal
+        client.force_authenticate(user=user)
+        url = reverse("accounts:edit-pending-collaboration", kwargs={"id": 1})
+        response = client.patch(url, {"accept": False}, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
+        self.assertFalse(user.shared_meals.filter(id=meal.id).exists())
+
+
+    def test_decline_collaboration_removes_pending_collaboration(self):
+        pending_collaboration = PendingCollaboration.objects.get(pk=1)
+        client = self.client
+        user = User.objects.get(username='test1')
+        client.force_authenticate(user=user)
+        url = reverse("accounts:edit-pending-collaboration", kwargs={"id": 1})
+        client.patch(url, {"accept": False}, format="json")
+
+        self.assertFalse(PendingCollaboration.objects.filter(meal=pending_collaboration.meal, collaborator=user.pk).exists())
 
     def test_add_collaboration_to_existing_meal(self):
         pass
