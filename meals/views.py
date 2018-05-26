@@ -1,7 +1,6 @@
 from itertools import chain
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions
-from django.contrib.auth.models import User
 from meals.models import Meal
 from meals.serializers import MealSerializer
 

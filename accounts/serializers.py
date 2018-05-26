@@ -38,7 +38,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         return super(UserSerializer, self).validate(password)
 
-    def get(self, request, *args, **kargs):
+    def get(self, request):
         return self.retrieve(request)
 
     class Meta:
