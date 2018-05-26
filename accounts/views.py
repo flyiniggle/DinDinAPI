@@ -45,14 +45,8 @@ class UserProfile(generics.RetrieveAPIView):
 class UserDetail(generics.RetrieveAPIView):
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated,)
-
-    def get_queryset(self):
-        return User.objects.all()
-
-    def get_object(self):
-        obj = get_object_or_404(self.get_queryset(), id=self.kwargs["id"])
-        self.check_object_permissions(self.request, obj)
-        return obj
+    queryset = User.objects.all()
+    lookup_field = "id"
 
 
 class UserCollaborations(generics.ListAPIView, generics.UpdateAPIView):
