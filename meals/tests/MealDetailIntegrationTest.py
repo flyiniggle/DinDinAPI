@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APIRequestFactory, APIClient
@@ -47,6 +49,8 @@ class MealDetailTest(TestCase):
             "name": "test meal",
             "taste": 1,
             "difficulty": 1,
+            "last_used": "2018-01-01",
+            "used_count": 22,
             "notes": "test notes"
         }
         client = APIClient()
@@ -62,6 +66,8 @@ class MealDetailTest(TestCase):
         self.assertEqual(meal.name, updated_data["name"])
         self.assertEqual(meal.taste, updated_data["taste"])
         self.assertEqual(meal.difficulty, updated_data["difficulty"])
+        self.assertEqual(meal.last_used.strftime("%Y-%m-%d"), updated_data["last_used"])
+        self.assertEqual(meal.used_count, updated_data["used_count"])
         self.assertEqual(meal.notes, updated_data["notes"])
 
     def test_update_meal_returns_200(self):
@@ -87,6 +93,8 @@ class MealDetailTest(TestCase):
             "name": "test meal",
             "taste": 1,
             "difficulty": 1,
+            "last_used": "2018-01-01",
+            "used_count": 22,
             "notes": "test notes"
         }
         client = APIClient()
@@ -112,6 +120,8 @@ class MealDetailTest(TestCase):
         self.assertEqual(meal["name"], updated_data["name"])
         self.assertEqual(meal["taste"], updated_data["taste"])
         self.assertEqual(meal["difficulty"], updated_data["difficulty"])
+        self.assertEqual(meal["last_used"], updated_data["last_used"])
+        self.assertEqual(meal["used_count"], updated_data["used_count"])
         self.assertEqual(meal["notes"], updated_data["notes"])
 
     def test_get_meals_returns_404_status_if_logged_in_as_different_user(self):
