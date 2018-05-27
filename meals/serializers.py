@@ -5,8 +5,8 @@ from accounts.models import PendingCollaboration
 
 
 class MealSerializer(serializers.HyperlinkedModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
-    collaborators = CollaboratorsField(many=True, required=False)
+    owner = serializers.ReadOnlyField(source='owner.username', read_only=True)
+    collaborators = CollaboratorsField(many=True, required=False, read_only=True)
 
     def create(self, validated_data):
         collaborators = validated_data.get("collaborators", [])

@@ -124,6 +124,37 @@ class MealDetailTest(TestCase):
         self.assertEqual(meal["used_count"], updated_data["used_count"])
         self.assertEqual(meal["notes"], updated_data["notes"])
 
+    def test_update_owner_fails(self):
+        client = APIClient()
+        meal = Meal.objects.first()
+        meal_id = meal.pk
+        meal_owner = meal.owner
+        owner_name = meal_owner.username
+        user = User.objects.get(username=owner_name)
+        client.force_authenticate(user=user)
+        url = "/meals/%d/" % meal_id
+        response = client.patch(url, {"owner": 3}, format="json")
+        meal.refresh_from_db()
+
+        self.assertEqual(meal.owner, meal_owner)
+        self.assertEqual(response.data["owner"], meal_owner.username)
+
+
+    def test_update_collaborators_fails(self):
+        client = APIClient()
+        meal = Meal.objects.first()
+        meal_id = meal.pk
+        collaborators = meal.collaborators
+        owner_name = meal.owner.username
+        user = User.objects.get(username=owner_name)
+        client.force_authenticate(user=user)
+        url = "/meals/%d/" % meal_id
+        response = client.patch(url, {"collaborators": [3]}, format="json")
+        meal.refresh_from_db()
+
+        self.assertEqual(meal.collaborators, collaborators)
+        self.assertEqual(response.data["collaborators"], list(collaborators.all()))
+
     def test_get_meals_returns_404_status_if_logged_in_as_different_user(self):
         client = APIClient()
         user = User.objects.get(username='test2')
