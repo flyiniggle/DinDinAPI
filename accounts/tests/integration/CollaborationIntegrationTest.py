@@ -104,7 +104,6 @@ class Collaboration(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
         self.assertFalse(user.shared_meals.filter(id=meal.id).exists())
 
-
     def test_decline_collaboration_removes_pending_collaboration(self):
         pending_collaboration = PendingCollaboration.objects.get(pk=1)
         client = self.client
