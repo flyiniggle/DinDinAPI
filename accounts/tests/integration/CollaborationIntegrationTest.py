@@ -8,7 +8,7 @@ from accounts.views import UserCollaborations
 from meals.views import MealList
 
 
-class Collaboration(APITestCase):
+class CreateCollaboration(APITestCase):
     fixtures = ['dump.json']
     new_meal_data = {
         "name": "turkey goop",
@@ -29,6 +29,22 @@ class Collaboration(APITestCase):
         view(request)
 
         self.assertEqual(len(user.new_shared_meals.all()), 3)
+
+    def test_add_collaboration_to_existing_meal(self):
+        pass
+
+
+class GetCollaboration(APITestCase):
+    fixtures = ['dump.json']
+    new_meal_data = {
+        "name": "turkey goop",
+        "taste": 3,
+        "difficulty": 2,
+        "last_used": "2018-03-13",
+        "used_count": 4,
+        "notes": "classic",
+        "collaborators": [2, 3]
+    }
 
     def test_get_pending_collaborations_returns_200(self):
         view = UserCollaborations.as_view()
@@ -60,6 +76,19 @@ class Collaboration(APITestCase):
         for pending_collaboration in response.data:
             with self.subTest(pending_collaboration=pending_collaboration):
                 self.assertIsNotNone(pending_meals.filter(meal=pending_collaboration["meal"]))
+
+
+class UpdateCollaboration(APITestCase):
+    fixtures = ['dump.json']
+    new_meal_data = {
+        "name": "turkey goop",
+        "taste": 3,
+        "difficulty": 2,
+        "last_used": "2018-03-13",
+        "used_count": 4,
+        "notes": "classic",
+        "collaborators": [2, 3]
+    }
 
     def test_accept_collaboration(self):
         client = self.client
@@ -114,8 +143,18 @@ class Collaboration(APITestCase):
 
         self.assertFalse(PendingCollaboration.objects.filter(meal=pending_collaboration.meal, collaborator=user.pk).exists())
 
-    def test_add_collaboration_to_existing_meal(self):
-        pass
+
+class DeleteUpdateCollaboration(APITestCase):
+    fixtures = ['dump.json']
+    new_meal_data = {
+        "name": "turkey goop",
+        "taste": 3,
+        "difficulty": 2,
+        "last_used": "2018-03-13",
+        "used_count": 4,
+        "notes": "classic",
+        "collaborators": [2, 3]
+    }
 
     def test_owner_remove_collaborator_from_existing_meal(self):
         pass

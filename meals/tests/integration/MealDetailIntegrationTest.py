@@ -1,14 +1,13 @@
-from datetime import date
-
+from django.contrib.auth.models import User
 from django.test import TestCase
 from rest_framework import status
-from rest_framework.test import APIRequestFactory, APIClient
-from django.contrib.auth.models import User
-from meals.views import MealDetail
+from rest_framework.test import APIClient, APIRequestFactory
+
 from meals.models import Meal
+from meals.views import MealDetail
 
 
-class MealDetailTest(TestCase):
+class GetMealDetailTest(TestCase):
     fixtures = ['dump.json',]
 
     def test_get_meal_returns_200_status(self):
@@ -43,6 +42,10 @@ class MealDetailTest(TestCase):
         self.assertIn("last_used", meal)
         self.assertIn("used_count", meal)
         self.assertIn("notes", meal)
+
+
+class UpdateMealDetailTest(TestCase):
+    fixtures = ['dump.json', ]
 
     def test_update_meal(self):
         updated_data = {
@@ -138,7 +141,6 @@ class MealDetailTest(TestCase):
 
         self.assertEqual(meal.owner, meal_owner)
         self.assertEqual(response.data["owner"], meal_owner.username)
-
 
     def test_update_collaborators_fails(self):
         client = APIClient()

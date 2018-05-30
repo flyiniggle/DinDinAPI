@@ -1,12 +1,14 @@
 from datetime import datetime
+
+from django.contrib.auth.models import User
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory, force_authenticate
-from django.contrib.auth.models import User
-from meals.views import MealList
+
 from meals.models import Meal
+from meals.views import MealList
 
 
-class MealsTest(TestCase):
+class GetMealsTest(TestCase):
     fixtures = ['dump.json']
     new_meal_data = {
         "name": "turkey goop",
@@ -81,6 +83,18 @@ class MealsTest(TestCase):
             with self.subTest(meal=meal):
                 is_owner_or_collaborator = (meal.get("owner") == "admin") or user.shared_meals.filter(id=meal.get("pk")).exists()
                 self.assertTrue(is_owner_or_collaborator)
+
+
+class CreateMealsTest(TestCase):
+    fixtures = ['dump.json']
+    new_meal_data = {
+        "name": "turkey goop",
+        "taste": 3,
+        "difficulty": 2,
+        "last_used": "2018-03-13",
+        "used_count": 4,
+        "notes": "classic"
+    }
 
     def test_post_meals_returns_201_status(self):
         view = MealList.as_view()
