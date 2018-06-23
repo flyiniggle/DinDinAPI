@@ -13,7 +13,6 @@ class MealSerializer(serializers.HyperlinkedModelSerializer):
     collaborators = CollaboratorsField(many=True, required=False)
 
     def create(self, validated_data):
-        '''TODO: don't save collaborators if meal creation fails. Need better error handling'''
         collaborators = self.get_collaborators(validated_data)
         new_meal = self.get_meal_data(validated_data)
         meal = Meal(**new_meal)

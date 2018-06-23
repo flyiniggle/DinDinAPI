@@ -38,6 +38,8 @@ class MealSerializeTest(TestCase):
         self.assertEqual(result, {"otherdata": "this is more data"})
         self.assertNotIn("collaborators", result)
 
+
+class MealSerializerCreatePendingCollaborationTest(TestCase):
     def test_create_pending_collaborations(self):
         user = User()
         user.save()
@@ -79,6 +81,7 @@ class MealSerializerFilterExistingCollaborationsTest(TestCase):
         for collaborator in self.pending_collaborators_data:
             user = User.objects.get(id=collaborator)
             PendingCollaboration(meal=new_meal, collaborator=user, owner=owner).save()
+
         new_meal.collaborators.set(self.existing_collaborators_data)
         collaborator = User.objects.get(id=self.existing_collaborators_data[0])
 
@@ -94,7 +97,14 @@ class MealSerializerFilterExistingCollaborationsTest(TestCase):
             PendingCollaboration(meal=new_meal, collaborator=user, owner=owner).save()
 
         collaborator = User.objects.get(id=self.pending_collaborators_data[0])
-
         include_in_list = MealSerializer.filter_existing_collaborations(collaborator, new_meal)
 
         self.assertFalse(include_in_list)
+
+    def test_filter_existing_collaborations_returns_true_if_no_collaboration_exists(self):
+        new_meal = Meal(**self.new_meal_data)
+        new_meal.save()
+        collaborator = User.objects.get(id=self.pending_collaborators_data[0])
+        include_in_list = MealSerializer.filter_existing_collaborations(collaborator, new_meal)
+
+        self.assertTrue(include_in_list)
