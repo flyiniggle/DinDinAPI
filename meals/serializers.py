@@ -1,8 +1,11 @@
+from itertools import chain
+
 from pipetools import pipe
-from meals.models import Meal
 from rest_framework import serializers
-from meals.fields import CollaboratorsField
+
 from accounts.models import PendingCollaboration
+from meals.fields import CollaboratorsField
+from meals.models import Meal
 
 
 class MealSerializer(serializers.HyperlinkedModelSerializer):
@@ -35,15 +38,29 @@ class MealSerializer(serializers.HyperlinkedModelSerializer):
 
     @staticmethod
     def get_collaborators(meal_data):
-        return  meal_data.get("collaborators", [])
+        return meal_data.get("collaborators", [])
 
     @staticmethod
     def get_meal_data(meal_data):
         return {k:v for k, v in meal_data.items() if k != "collaborators"}
 
     @staticmethod
+    def filter_existing_collaborations(collaborator, meal):
+        chained_shares = chain(collaborator.shared_meals.all(), collaborator.new_shared_meals.all())
+        all_shares = (pipe
+                      | list
+                      | (map, lambda instance: instance if type(instance) is Meal else instance.meal)
+                      | list
+                      | (filter, lambda shared_meal: shared_meal.pk == meal.pk)
+                      | list
+                      )(chained_shares)
+
+        return len(all_shares) == 0
+
+    @staticmethod
     def create_pending_collaborations(collaborations, meal):
         return (pipe
+                | (filter, lambda collaborator: MealSerializer.filter_existing_collaborations(collaborator, meal))
                 | (map, lambda collaborator: dict(owner=meal.owner, collaborator=collaborator, meal=meal))
                 | list
                 | (map, lambda c: PendingCollaboration(**c))

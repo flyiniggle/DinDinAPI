@@ -1,10 +1,12 @@
 from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APIRequestFactory, APITestCase, force_authenticate
+from rest_framework.test import APIClient, APIRequestFactory, APITestCase, force_authenticate
 
 from accounts.models import PendingCollaboration
 from accounts.views import UserCollaborations
+from meals.models import Meal
+from meals.serializers import MealSerializer
 from meals.views import MealList
 
 
@@ -31,7 +33,38 @@ class CreateCollaboration(APITestCase):
         self.assertEqual(len(user.new_shared_meals.all()), 3)
 
     def test_add_collaboration_to_existing_meal(self):
-        pass
+        client = APIClient()
+        data = {k: v for k, v in self.new_meal_data.items() if k != "collaborators"}
+        meal = Meal(**data)
+        meal.save()
+        meal_id = meal.pk
+        meal_owner = meal.owner.username
+        user = User.objects.get(username=meal_owner)
+        client.force_authenticate(user=user)
+        url = "/meals/%d/" % meal_id
+        client.patch(url, {"collaborators": [1]}, format="json")
+        collaborator = User.objects.get(id=1)
+        new_collaboration_exists = collaborator.new_shared_meals.filter(meal=meal).exists()
+
+        self.assertTrue(new_collaboration_exists)
+
+    def test_add_existing_collaboration_to_meal_fails(self):
+        client = APIClient()
+        meal_data = MealSerializer.get_meal_data(self.new_meal_data)
+        collaborators_data = MealSerializer.get_collaborators(self.new_meal_data)
+        meal = Meal(**meal_data)
+        meal.save()
+        meal.collaborators.set(collaborators_data)
+        meal_id = meal.pk
+        meal_owner = meal.owner.username
+        user = User.objects.get(username=meal_owner)
+        client.force_authenticate(user=user)
+        url = "/meals/%d/" % meal_id
+        client.patch(url, {"collaborators": [2]}, format="json")
+        collaborator = User.objects.get(id=2)
+        new_collaboration_exists = collaborator.new_shared_meals.filter(meal=meal).exists()
+
+        self.assertFalse(new_collaboration_exists)
 
 
 class GetCollaboration(APITestCase):
