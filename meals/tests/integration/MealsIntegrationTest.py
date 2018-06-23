@@ -40,6 +40,13 @@ class GetMealsTest(TestCase):
         self.assertEqual(response.status_text, 'Unauthorized')
 
     def test_get_meals_returns_a_meals_list(self):
+        '''
+        A request to get a list of meals should return a list of meal objects with the appropriate data in them.
+
+        Test steps:
+        - send a request to get a list of meals for a user
+        - iterate over the response data and check that each object has the appropriate properties
+        '''
         view = MealList.as_view()
         factory = APIRequestFactory()
         request = factory.get('meals', format='json')
@@ -59,6 +66,7 @@ class GetMealsTest(TestCase):
                 self.assertIn("last_used", meal)
                 self.assertIn("used_count", meal)
                 self.assertIn("notes", meal)
+                self.assertIn("ingredients", meal)
 
     def test_get_meals_returns_meals_for_specified_user(self):
         view = MealList.as_view()

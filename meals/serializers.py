@@ -68,4 +68,15 @@ class MealSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Meal
-        fields = ('pk', 'name', 'owner', 'collaborators', 'taste', 'difficulty', 'last_used', 'used_count', 'notes')
+        fields = (
+            'pk',
+            'name',
+            'owner',
+            'collaborators',
+            'taste',
+            'difficulty',
+            'last_used',
+            'used_count',
+            'ingredients',
+            'notes'
+        )
