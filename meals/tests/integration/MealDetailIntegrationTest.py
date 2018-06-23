@@ -243,3 +243,80 @@ class UpdateMealDetailTest(TestCase):
         new_meal.refresh_from_db()
 
         self.assertListEqual(updated_ingredients["ingredients"], new_meal.ingredients)
+
+
+class DeleteMealTest(TestCase):
+    fixtures = ['dump.json']
+    new_meal_data = {
+        "name": "turkey goop",
+        "taste": 3,
+        "difficulty": 2,
+        "last_used": "2018-03-13",
+        "used_count": 4,
+        "notes": "classic"
+    }
+
+    def test_delete_meal_fails_if_not_logged_in(self):
+        '''
+        An unauthenticated user should not be able to delete a meal.
+
+        Test steps:
+        - create a meal
+        - send a request to delete the meal
+        - check that response indicates failure
+        - check that the meal still exists in the db
+        '''
+        factory = APIRequestFactory()
+        new_meal = Meal(**self.new_meal_data)
+        new_meal.save()
+        pk = new_meal.pk
+        url = "/meals/%d/" % pk
+        request = factory.delete(url)
+        view = MealDetail.as_view()
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertTrue(Meal.objects.filter(pk=pk).exists())
+
+    def test_delete_meal_fails_if_not_owner(self):
+        '''
+        An user authenticated as someone other than the meal owner should not be able to delete a meal.
+
+        Test steps:
+        - create a meal
+        - authenticate as not the owner
+        - send a request to delete the meal
+        - check that response indicates failure
+        - check that the meal still exists in the db
+        '''
+        client = APIClient()
+        new_meal = Meal(owner=User.objects.get(pk=2), **self.new_meal_data)
+        new_meal.save()
+        pk = new_meal.pk
+        url = "/meals/%d/" % pk
+        client.force_authenticate(user=User.objects.get(pk=1))
+        response = client.delete(url)
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertTrue(Meal.objects.filter(pk=pk).exists())
+
+    def test_delete_meal_succeeds(self):
+        '''
+        An authenticated meal owner should be able to delete a meal.
+
+        Test steps:
+        - create a meal
+        - send a request to delete the meal
+        - check that response indicates success
+        - check that the meal does not still exist in the db
+        '''
+        client = APIClient()
+        new_meal = Meal(**self.new_meal_data)
+        new_meal.save()
+        pk = new_meal.pk
+        url = "/meals/%d/" % pk
+        client.force_authenticate(user=new_meal.owner)
+        response = client.delete(url)
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(Meal.objects.filter(pk=pk).exists())
