@@ -26,6 +26,10 @@ class CreateCollaboration(APITestCase):
         '''
         Create a new meal with collaborators. The collaborators should result in new pending collaborations
         being created.
+
+        Test steps:
+        - send a post request to create a meal with collaborators
+        - check that new pending collaboration objects have been created for all specified collaborators
         '''
         view = MealList.as_view()
         factory = APIRequestFactory()
@@ -45,6 +49,11 @@ class CreateCollaboration(APITestCase):
         '''
         Add collaborators to an existing meal. The collaborators should result in new pending collaborations
         being created.
+
+        Test steps:
+        - create a meal
+        - send a patch request to add a collaborator to that meal
+        - check that a new pending collaboration object exists for the collaborator/meal combination
         '''
         client = APIClient()
         data = {k: v for k, v in self.new_meal_data.items() if k != "collaborators"}
@@ -61,6 +70,16 @@ class CreateCollaboration(APITestCase):
         self.assertIsNotNone(PendingCollaboration.objects.get(collaborator=collaborator, meal=meal))
 
     def test_add_existing_collaboration_to_meal_fails(self):
+        '''
+        No new pending collaboration object should be created if the specified user is already a collaborator
+        on the meal.
+
+        Test steps:
+        - create a meal
+        - add an existing collaborator to the meal
+        - send a patch request attempting to add the same collaborator to the meal
+        - check that there is no new pending collaboration for that collaborator/meal combination
+        '''
         client = APIClient()
         meal_data = MealSerializer.get_meal_data(self.new_meal_data)
         collaborators_data = MealSerializer.get_collaborators(self.new_meal_data)
