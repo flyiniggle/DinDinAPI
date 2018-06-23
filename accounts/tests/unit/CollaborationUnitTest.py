@@ -21,6 +21,11 @@ class Collaboration(APITestCase):
         '''
         Given a user, it should be possible to retrieve all the meals the user has shared with other people
         that are pending acceptance by accessing the pending_collaborations property.
+
+        Test steps:
+        - send a request to create a new meal with collaborators
+        - check that the meal owner has new pending collaboration objects for those collaborator/meal combos on its
+            pending_collaborations prop
         '''
         view = MealList.as_view()
         factory = APIRequestFactory()
@@ -40,6 +45,12 @@ class Collaboration(APITestCase):
         '''
         Given a user, it should be possible to retrieve all of the pending meals other people have shared with the user
         by accessing the new_shared_meals property.
+
+        Test steps:
+        - create a new meal
+        - send a patch request to add a collaborator to that meal
+        - check that a new pending collaboration object for that meal is present on the collaborator's
+            new_shared_meals property.
         '''
         client = APIClient()
         data = {k: v for k, v in self.new_meal_data.items() if k != "collaborators"}
