@@ -111,6 +111,14 @@ class GetCollaboration(APITestCase):
     }
 
     def test_get_pending_collaborations_returns_200(self):
+        '''
+        A successful, authenticated get request for a user's pending collaborations should return a status code of 200.
+
+        Test steps:
+        - make a get request
+        - authenticate
+        - check that the response status code is 200
+        '''
         view = UserCollaborations.as_view()
         factory = APIRequestFactory()
         request = factory.get("user/pending")
@@ -121,6 +129,15 @@ class GetCollaboration(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_pending_collaborations_returns_401_if_user_is_unauthenticated(self):
+        '''
+        A get request for a user's pending collaborations should return a status code of 401 if the user is
+        not authenticated.
+
+        Test steps:
+        - make a get request
+        - do not authenticate
+        - check that the response status code is 200
+        '''
         view = UserCollaborations.as_view()
         factory = APIRequestFactory()
         request = factory.get("user/pending")
@@ -129,6 +146,16 @@ class GetCollaboration(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_get_pending_collaborations_returns_list_of_pending_shared_meals_for_user(self):
+        '''
+        A successful get request for a user's pending collaborations should return a list of meals newly shared with
+        the user.
+
+        Test steps:
+        - make a get request
+        - authenticate
+        - check that all of the meals in the returned pending collaborations list match a pending collaborations
+            db object
+        '''
         view = UserCollaborations.as_view()
         factory = APIRequestFactory()
         request = factory.get("user/pending")
