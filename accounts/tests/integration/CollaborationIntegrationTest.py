@@ -23,6 +23,11 @@ class CreateCollaboration(APITestCase):
     }
 
     def test_add_pending_collaborator_on_meal_creation(self):
+        '''
+        Create a new meal with collaborators. The collaborators should result in new pending collaborations
+        being created. Those pending collaborations should be accessible through the new_shared_meals property
+        of the meal owner.
+        '''
         view = MealList.as_view()
         factory = APIRequestFactory()
         request = factory.post('meals', self.new_meal_data, format='json')
@@ -30,7 +35,12 @@ class CreateCollaboration(APITestCase):
         force_authenticate(request, user=user)
         view(request)
 
-        self.assertEqual(len(user.new_shared_meals.all()), 3)
+        collaborator1 = User.objects.get(pk=2)
+        collaborator2 = User.objects.get(pk=3)
+        meal = Meal.objects.get(name="turkey goop")
+
+        self.assertIsNotNone(user.pending_collaborations.get(collaborator=collaborator1, meal=meal))
+        self.assertIsNotNone(user.pending_collaborations.get(collaborator=collaborator2, meal=meal))
 
     def test_add_collaboration_to_existing_meal(self):
         client = APIClient()
