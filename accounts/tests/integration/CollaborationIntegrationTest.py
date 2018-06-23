@@ -57,9 +57,8 @@ class CreateCollaboration(APITestCase):
         url = "/meals/%d/" % meal_id
         client.patch(url, {"collaborators": [1]}, format="json")
         collaborator = User.objects.get(id=1)
-        new_collaboration_exists = collaborator.new_shared_meals.filter(meal=meal).exists()
 
-        self.assertTrue(new_collaboration_exists)
+        self.assertIsNotNone(PendingCollaboration.objects.get(collaborator=collaborator, meal=meal))
 
     def test_add_existing_collaboration_to_meal_fails(self):
         client = APIClient()

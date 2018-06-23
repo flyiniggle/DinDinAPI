@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from rest_framework.test import APIRequestFactory, APITestCase, force_authenticate
+from rest_framework.test import APIClient, APIRequestFactory, APITestCase, force_authenticate
 
 from meals.models import Meal
 from meals.views import MealList
@@ -35,3 +35,23 @@ class Collaboration(APITestCase):
 
         self.assertIsNotNone(user.pending_collaborations.get(collaborator=collaborator1, meal=meal))
         self.assertIsNotNone(user.pending_collaborations.get(collaborator=collaborator2, meal=meal))
+
+    def test_user_new_shared_meals(self):
+        '''
+        Given a user, it should be possible to retrieve all of the pending meals other people have shared with the user
+        by accessing the new_shared_meals property.
+        '''
+        client = APIClient()
+        data = {k: v for k, v in self.new_meal_data.items() if k != "collaborators"}
+        meal = Meal(**data)
+        meal.save()
+        meal_id = meal.pk
+        meal_owner = meal.owner.username
+        user = User.objects.get(username=meal_owner)
+        client.force_authenticate(user=user)
+        url = "/meals/%d/" % meal_id
+        client.patch(url, {"collaborators": [1]}, format="json")
+        collaborator = User.objects.get(id=1)
+        new_collaboration_exists = collaborator.new_shared_meals.filter(meal=meal).exists()
+
+        self.assertTrue(new_collaboration_exists)
