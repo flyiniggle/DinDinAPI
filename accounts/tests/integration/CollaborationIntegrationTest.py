@@ -235,7 +235,7 @@ class UpdateCollaboration(APITestCase):
         self.assertFalse(PendingCollaboration.objects.filter(meal=pending_collaboration.meal, collaborator=user.pk).exists())
 
 
-class DeleteUpdateCollaboration(APITestCase):
+class DeleteCollaboration(APITestCase):
     fixtures = ['dump.json']
     new_meal_data = {
         "name": "turkey goop",
@@ -248,7 +248,118 @@ class DeleteUpdateCollaboration(APITestCase):
     }
 
     def test_owner_remove_collaborator_from_existing_meal(self):
+        '''
+        Meal owners should be able to remove collaborators from their meals.
+        '''
         pass
 
     def test_collaborator_remove_self_from_existing_meal(self):
+        '''
+        Collaborators should be able to stop collaborating on a meal.
+        '''
         pass
+
+    def test_delete_pending_collaboration_on_meal_deletion(self):
+        '''
+        if a meal is deleted, any pending collaborations associated with that meal should also be deleted.
+
+        Test steps:
+        - create a meal with pending collaborations
+        - make sure pending collaborations exist, or the test will be invalid
+        - delete the meal
+        - check that no pending collaboration db objects exist for that meal
+        '''
+        self.client.login(username="test2", password="testing123")
+        self.client.post("/meals/", self.new_meal_data, format="json")
+
+        meal = Meal.objects.get(name="turkey goop")
+        pending_collaborations = PendingCollaboration.objects.filter(meal=meal)
+
+        self.assertEqual(len(pending_collaborations), 2)
+
+        self.client.delete("/meals/%d/" % meal.pk)
+        pending_collaborations = PendingCollaboration.objects.filter(meal=meal)
+
+        self.assertEqual(len(pending_collaborations), 0)
+
+    def test_delete_pending_collaboration_on_owner_deletion(self):
+        '''
+        if a user is deleted, any pending collaborations for which the deleted user is the owner should also be deleted.
+
+        Test steps:
+        - create a meal with pending collaborations
+        - make sure user has pending collaborations, or the test will be invalid
+        - delete the owner
+        - check that no pending collaboration db objects exist for that owner
+        '''
+        self.client.login(username="test2", password="testing123")
+        self.client.post("/meals/", self.new_meal_data, format="json")
+
+        owner = User.objects.get(username="test2")
+        pending_collaborations = PendingCollaboration.objects.filter(owner=owner)
+
+        self.assertGreaterEqual(len(pending_collaborations), 1)
+
+        owner.delete()
+        pending_collaborations = PendingCollaboration.objects.filter(owner=owner)
+
+        self.assertEqual(len(pending_collaborations), 0)
+
+    def test_delete_pending_collaboration_on_collaborator_deletion(self):
+        '''
+        if a user is deleted, any pending collaborations for which the deleted user is the collaborator
+        should also be deleted.
+
+        Test steps:
+        - create a meal with pending collaborations
+        - make sure user has pending collaborations, or the test will be invalid
+        - delete the collaborator
+        - check that no pending collaboration db objects exist for that collaborator
+        '''
+        self.client.login(username="admin", password="testing123")
+        self.client.post("/meals/", self.new_meal_data, format="json")
+
+        collaborator = User.objects.get(username="test2")
+        pending_collaborations = PendingCollaboration.objects.filter(owner=collaborator)
+
+        self.assertGreaterEqual(len(pending_collaborations), 1)
+
+        collaborator.delete()
+        pending_collaborations = PendingCollaboration.objects.filter(owner=collaborator)
+
+        self.assertEqual(len(pending_collaborations), 0)
+
+    def test_delete_existing_collaboration_on_collaborator_deletion(self):
+        '''
+        If a user is deleted, it should be removed from existing collaborators lists on all meals.
+
+        Test steps:
+        - delete admin (who has 2 active collaborations in the demo data)
+        - make sure admin is listed as collaborator on one or more meals,
+        - check that no meals have admin as a collaborator
+        '''
+        admin = User.objects.get(username="admin")
+        self.assertGreaterEqual(len(admin.shared_meals.all()), 1)
+        id = admin.id
+        admin.delete()
+        existing_collaborations = Meal.objects.filter(collaborators__id=id)
+        self.assertEqual(len(existing_collaborations), 0)
+
+    def test_delete_meal_with_collaborators(self):
+        '''
+        If a meal is deleted, it should be removed from existing shared_meals lists on all meals.
+
+        Test steps:
+        - find chicken stir fry (18), which is shared with admin
+        - make sure admin is listed as collaborator
+        - delete chicken stir fry
+        - check that admin no longer has chicken stir fry listed as a shared meal
+        '''
+        chicken_stir_fry = Meal.objects.get(id=18)
+        collaborators = chicken_stir_fry.collaborators.all()
+        chicken_stir_fry.delete()
+
+        for collaborator in collaborators:
+            with self.subtest(collaborator=collaborator):
+                shared_meals = collaborator.shared_meals
+                self.assertFalse(shared_meals.filter(id=id).exists())
