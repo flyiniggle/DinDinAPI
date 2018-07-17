@@ -10,9 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
+import dj_database_url
 import os
 from dotenv import load_dotenv
-import dj_database_url
 
 load_dotenv()
 
@@ -31,7 +31,8 @@ DEBUG = os.getenv('DEBUG', False)
 
 ALLOWED_HOSTS = [
     'dindinwebapi.herokuapp.com',
-    '127.0.0.1'
+    '127.0.0.1',
+    'localhost',
 ]
 
 
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
     'meals',
     'accounts',
 ]
@@ -53,6 +55,7 @@ INSTALLED_APPS = [
 #AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -114,6 +117,10 @@ if 'TRAVIS' in os.environ:
             'PORT':     '',
         }
     }
+
+# corsheaders
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

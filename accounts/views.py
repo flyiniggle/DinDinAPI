@@ -1,13 +1,14 @@
-from rest_framework import generics, permissions, status
-from rest_framework.response import Response
-from accounts.models import PendingCollaboration
-from accounts.serializers import UserSerializer, PendingCollaborationSerializer
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.shortcuts import get_object_or_404
+from rest_framework import generics, permissions, status
 from rest_framework.authtoken.models import Token
-from django.contrib.auth.models import User
+from rest_framework.response import Response
+
+from accounts.models import PendingCollaboration
+from accounts.serializers import PendingCollaborationSerializer, UserSerializer
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
@@ -67,5 +68,3 @@ class UserCollaborations(generics.ListAPIView, generics.UpdateAPIView):
         collaboration.delete()
 
         return Response(status=status.HTTP_202_ACCEPTED)
-
-
