@@ -1,0 +1,1 @@
+psql -U admin -d meals -f ./data/demodata.sql
