@@ -175,4 +175,4 @@ STATICFILES_DIRS = (
 )
 
 # Enable static file compression
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
