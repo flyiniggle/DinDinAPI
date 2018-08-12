@@ -175,4 +175,4 @@ STATICFILES_DIRS = (
 )
 
 # Enable static file compression
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'DinDinAPI.storage.WhiteNoiseStaticFilesStorage'
