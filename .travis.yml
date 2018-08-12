@@ -36,4 +36,3 @@ deploy:
     on:
       repo: flyiniggle/DinDinAPI
       branch: master
-      tags: true
