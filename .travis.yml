@@ -25,9 +25,13 @@ deploy:
     app: dindinwebapi-staging
     on:
       repo: flyiniggle/DinDinAPI
+      branches:
+        only:
+        - master
+        - /^v.*$/
   - provider: heroku
     api_key:
-      secure: jQzduKrIQtZKPvyC30h575CVOkznux7j734qHIoYPBLav0GRq/+0GQEuSoc7ZVOlrp9GSvojdDO9kYfmrkT7Zy1RcMcJXya4AhxeiZzSuApLhpjb/4qi29rqmMjEinGP+vj1X6tAnHKE2B3bK5gv/SbaNPQW/qxcIFcs9WnXyw0soA+flcggHp/X6wcTiH+S/YP1qwyQaRkjnK3kHLUxd2JdJVRAIM3J8GynebmFSKVkhoOLfBA9Z/g1XfAg8muSDkpB8ViH4aX58h6us+Y225xJ55b34nNQFn/788jESpAGXwsB+4M9RjldqxYk/Xedf4BK55W4VmnJ76hWh+9VYz4nDqQOsLnicEpiiahULoRn6pxFxTOTpcdHc38Ae04apPk3Rt4y04l2yoWGuvqfRzChHQco5Xi34o1y/2C+DjE9XNBVG7ZEh+rJuy87tJ38YzZypFbnT227/t8ItcwN7XxoI+ufi8XMwfz7QiFH3StKi6Qu2aFKNyuUqvO7MafdrynwUOFasGSV1i3N0cLGDZuTwhpbaeBbNEMoU4wDDs3WvNphumLCAJzOOhGS5hUZk7iCAg2jsXZHEjzPjwW6tntcTmmNlzgQqKLbB6dcdgfaLqLiFcbCQo3GIKyj1ad6OCd4U2TZQ3/bQjcYK32b8vpfd0XG+nBjeZh9U46/2QY=
+      secure: hp9xktuKDgWc7M/Tzb/Qut+Dd+/nsGxgSNySeGep8su8C2ZUWddVs7BAEPLBaMrNZM93wU8iqwl0RCsFL/Ja/qkZsCDUMkxQOPbKa64Qubb4treKgge4tx4XQuwOm+wP5ma7OXeOUODiTCn6vMil6nAEPr+sH/BdpW+gF6/qtEZGkfavpOKv0eSvNMRqCN77O+4nv35ZIaqMhGGyPWtTkXn8NYxNu8Yc/r3ZHziYr5eBceMGEcrU5+94EwUZlYiC7kkLsfnRQu6UhXzIqPORT8h0Br7fgrpFv4rIQKBZpRK0Fo/ifMZD0qRE8nnAIuTrHq2wAoq2fFHXsQj7JVxrnPjsga8rQBrxOcYUQSM4eQ/FwevC7yqfmSWMcHBWWNuoCDy0/sFeUSzxmeYZuGnmdY7n4yFWyekrek9d3A12w0jTUZltHqFQwtYI96wcksp5/66nRi/XA1j1CvDWc5s8ltpjnY+OgPtdTWIEfKn/MewvYjTIzzl2Yn3q7wDxo89yujdDaKk0gRoGMKAIku2O1OY7lUYFYncmjbWvRNuzZhc3NZm+oHtiog8gjOOJM1rJxWRG4HG/rqFVH0phPCo+KuKY+U0J6+rC0hM/Y8he5rBwnKe4Z9P/TwLxevD8veGa7mkQ1Ra4pERERwGU7bM/jCidmzwFii+EjHg5li61Vak=
     app: dindinwebapi
     on:
       repo: flyiniggle/DinDinAPI
