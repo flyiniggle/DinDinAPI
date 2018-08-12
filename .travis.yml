@@ -22,7 +22,7 @@ deploy:
   provider: heroku
   api_key:
     secure: HE+QQNb2Jb1RJDvZVrTC2JcsFcPjJ3Kmfd0qNKNuTct4mbmpJuR/AWVxpTeNyb1EWehErARR6S6Au+JuRw83eX+heSYaK2NCrkWyDRun6BsrpYR2mMHgJHN03mh2KPYOKJiXkIGwJREskojH0xUn7aJjCCH9FUiBBpEapwC/nrnWecux3pqyAkoZffRiyCNd6Go/B7vOMntiSmHyY1nYsIR7uxmfcTcqCgs9qVjO5ZyzRbV9As65/t4+KPhfBQD7Ph3r49x+jaj6Ct1Dj1n96da1kjnoBpfY+nE/5QqvLQD63UsoIBQQx1Q5O5D39Ie3AHr6l7qZoXAAp9zZyCPWk9nVrjfqo+I+OHHD0XS2Y+mEXN/XY8vGv/8VquPbqmGtGo9dA+o4aFvQaEAQYXPb+MgwZYzqfP/nGb0hkTJSR26zmH3mxJL0ND5PJS6Sr28za5LvhGeGASPUD126cLaSH+WSX6hYQyfSoYpjta5xRs8idngTuQ+/16+FZqKWIXvGD84ju60P6iidV9/xIriPjiJ740GGsVKUuDpnE4thU1uLSrrtCx5El209d5a4yEh5pV45332/2oyvNN1njreUphGyXu3apquRKzbPwpgCPk3bfe6KLbXHtRwnvuyd9pbKJJRF5PzWKlSZSDEqPFfpK4hHvu7g/TgqYZdiPtAgASI=
-  app: dindinwebapi
+  app: dindinwebapi-staging
   run: "psql -d meals -f ./data/demodata.sql"
   on:
     repo: flyiniggle/DinDinAPI
