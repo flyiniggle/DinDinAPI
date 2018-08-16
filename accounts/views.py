@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.shortcuts import get_object_or_404
-from rest_framework import generics, permissions, status
+from rest_framework import authentication, generics, permissions, status
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
@@ -21,6 +21,7 @@ def create_auth_token(instance=None, created=False, **kwargs):
 class UserCreate(generics.CreateAPIView):
     serializer_class = UserSerializer
     permission_classes = (permissions.AllowAny,)
+    authentication_classes = (authentication.TokenAuthentication,)
 
 
 class UserList(generics.ListAPIView):
