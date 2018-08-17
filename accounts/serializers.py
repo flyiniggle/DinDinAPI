@@ -1,8 +1,8 @@
+import django.contrib.auth.password_validation as validators
+from django.contrib.auth.models import User
+from django.core import exceptions
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from django.contrib.auth.models import User
-import django.contrib.auth.password_validation as validators
-from django.core import exceptions
 
 from accounts.models import PendingCollaboration
 
@@ -24,17 +24,13 @@ class UserSerializer(serializers.ModelSerializer):
     def validate_password(self, password):
         user = User(**self.initial_data)
 
-        errors = dict()
         try:
             # validate the password and catch the exception
             validators.validate_password(password=password, user=user)
 
         # the exception raised here is different than serializers.ValidationError
         except exceptions.ValidationError as e:
-            errors['password'] = list(e.messages)
-
-        if errors:
-            raise serializers.ValidationError(errors)
+            raise serializers.ValidationError(list(e.messages))
 
         return super(UserSerializer, self).validate(password)
 
