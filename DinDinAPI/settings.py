@@ -147,7 +147,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 JWT_AUTH = {
-    'JWT_AUTH_COOKIE': 'dindinauth',
+    # 'JWT_AUTH_COOKIE': 'dindinauth',
 }
 
 
