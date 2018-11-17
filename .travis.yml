@@ -22,20 +22,17 @@ script:
 after_success:
 - coveralls
 deploy:
-  matrix:
-  - provider: heroku
-    api_key:
-      secure: CkbLG62HYzM0ElEbjeLHu+E8SRt3Sb3pl+kNDbD64Rbrt75avQ/dgug1eN89WsJGsH4wIBUayjnO1CCsaaLH/3IgTI8asNb5/ATTKUwPMzYJpHeqEiNQBZQzaGL1XViO3BuneagW32JcnA+7bQjrzjsV5piOAIjOtke0ih/yKTvhbq6+Nu3Qpwa8whJzUfRQTathdOr7XgBpaSjQlkfn7f3P0HczaN3I4/IrDOBOR1+Us/p9rcqe+MuCKEjfGcFpwRALkwcSeqp47sRB48OEpjRwfRFNdPfjpOpJE2CfQfwGZTLOzqPcleQy72Ymr4v8xb8LljcCL0QBKrMV3YauL80ykgaHI6cXx7TgW//RUanQDdCF4yL+MZOPPYGphqxkoFMB7d1Sul1cWL8kydg0bRoY5yMMeZ4Nuj/fzy7rE+B+NSVKCQ+4IH0HnlaVulXFeVQF9KpJqtsGK6NHMC5GQ6mVoK6VhwoFGiHfDbB57TteiFA9ugl96Mnhl+b03eVyqo3Fs8pO4TC7+KdWm0YmHe9QHxcwCvpGaelWhpLy3eWK7TeKdqhz0W6KacsbjGIvBcE6Nl8K3LSUynz19Y1ipg6D5ZEpzSQ4fwuEVSEHwXclzsi+hUPLa4ZHAM9DugUzyOYv5dthOrsXjJNSA4605y1rg66+aJwu2LcM6i0NJUE=
-    app: dindinwebapi
-    on:
-      repo: flyiniggle/DinDinAPI
-      tags: true
-  - provider: heroku
-    api_key:
-      secure: CkbLG62HYzM0ElEbjeLHu+E8SRt3Sb3pl+kNDbD64Rbrt75avQ/dgug1eN89WsJGsH4wIBUayjnO1CCsaaLH/3IgTI8asNb5/ATTKUwPMzYJpHeqEiNQBZQzaGL1XViO3BuneagW32JcnA+7bQjrzjsV5piOAIjOtke0ih/yKTvhbq6+Nu3Qpwa8whJzUfRQTathdOr7XgBpaSjQlkfn7f3P0HczaN3I4/IrDOBOR1+Us/p9rcqe+MuCKEjfGcFpwRALkwcSeqp47sRB48OEpjRwfRFNdPfjpOpJE2CfQfwGZTLOzqPcleQy72Ymr4v8xb8LljcCL0QBKrMV3YauL80ykgaHI6cXx7TgW//RUanQDdCF4yL+MZOPPYGphqxkoFMB7d1Sul1cWL8kydg0bRoY5yMMeZ4Nuj/fzy7rE+B+NSVKCQ+4IH0HnlaVulXFeVQF9KpJqtsGK6NHMC5GQ6mVoK6VhwoFGiHfDbB57TteiFA9ugl96Mnhl+b03eVyqo3Fs8pO4TC7+KdWm0YmHe9QHxcwCvpGaelWhpLy3eWK7TeKdqhz0W6KacsbjGIvBcE6Nl8K3LSUynz19Y1ipg6D5ZEpzSQ4fwuEVSEHwXclzsi+hUPLa4ZHAM9DugUzyOYv5dthOrsXjJNSA4605y1rg66+aJwu2LcM6i0NJUE=
-    app: dindinwebapi-staging
-    on:
-      repo: flyiniggle/DinDinAPI
-      branch: master
+- provider: heroku
   api_key:
     secure: CkbLG62HYzM0ElEbjeLHu+E8SRt3Sb3pl+kNDbD64Rbrt75avQ/dgug1eN89WsJGsH4wIBUayjnO1CCsaaLH/3IgTI8asNb5/ATTKUwPMzYJpHeqEiNQBZQzaGL1XViO3BuneagW32JcnA+7bQjrzjsV5piOAIjOtke0ih/yKTvhbq6+Nu3Qpwa8whJzUfRQTathdOr7XgBpaSjQlkfn7f3P0HczaN3I4/IrDOBOR1+Us/p9rcqe+MuCKEjfGcFpwRALkwcSeqp47sRB48OEpjRwfRFNdPfjpOpJE2CfQfwGZTLOzqPcleQy72Ymr4v8xb8LljcCL0QBKrMV3YauL80ykgaHI6cXx7TgW//RUanQDdCF4yL+MZOPPYGphqxkoFMB7d1Sul1cWL8kydg0bRoY5yMMeZ4Nuj/fzy7rE+B+NSVKCQ+4IH0HnlaVulXFeVQF9KpJqtsGK6NHMC5GQ6mVoK6VhwoFGiHfDbB57TteiFA9ugl96Mnhl+b03eVyqo3Fs8pO4TC7+KdWm0YmHe9QHxcwCvpGaelWhpLy3eWK7TeKdqhz0W6KacsbjGIvBcE6Nl8K3LSUynz19Y1ipg6D5ZEpzSQ4fwuEVSEHwXclzsi+hUPLa4ZHAM9DugUzyOYv5dthOrsXjJNSA4605y1rg66+aJwu2LcM6i0NJUE=
+  app: dindinwebapi
+  on:
+    repo: flyiniggle/DinDinAPI
+    tags: true
+- provider: heroku
+  api_key:
+    secure: CkbLG62HYzM0ElEbjeLHu+E8SRt3Sb3pl+kNDbD64Rbrt75avQ/dgug1eN89WsJGsH4wIBUayjnO1CCsaaLH/3IgTI8asNb5/ATTKUwPMzYJpHeqEiNQBZQzaGL1XViO3BuneagW32JcnA+7bQjrzjsV5piOAIjOtke0ih/yKTvhbq6+Nu3Qpwa8whJzUfRQTathdOr7XgBpaSjQlkfn7f3P0HczaN3I4/IrDOBOR1+Us/p9rcqe+MuCKEjfGcFpwRALkwcSeqp47sRB48OEpjRwfRFNdPfjpOpJE2CfQfwGZTLOzqPcleQy72Ymr4v8xb8LljcCL0QBKrMV3YauL80ykgaHI6cXx7TgW//RUanQDdCF4yL+MZOPPYGphqxkoFMB7d1Sul1cWL8kydg0bRoY5yMMeZ4Nuj/fzy7rE+B+NSVKCQ+4IH0HnlaVulXFeVQF9KpJqtsGK6NHMC5GQ6mVoK6VhwoFGiHfDbB57TteiFA9ugl96Mnhl+b03eVyqo3Fs8pO4TC7+KdWm0YmHe9QHxcwCvpGaelWhpLy3eWK7TeKdqhz0W6KacsbjGIvBcE6Nl8K3LSUynz19Y1ipg6D5ZEpzSQ4fwuEVSEHwXclzsi+hUPLa4ZHAM9DugUzyOYv5dthOrsXjJNSA4605y1rg66+aJwu2LcM6i0NJUE=
+  app: dindinwebapi-staging
+  on:
+    repo: flyiniggle/DinDinAPI
+    branch: master
