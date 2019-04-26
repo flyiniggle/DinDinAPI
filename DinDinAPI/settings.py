@@ -148,6 +148,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 JWT_AUTH = {
     # 'JWT_AUTH_COOKIE': 'dindinauth',
+    'JWT_ALLOW_REFRESH': True
 }
 
 
@@ -172,4 +173,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-
