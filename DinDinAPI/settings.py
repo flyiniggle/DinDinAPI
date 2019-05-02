@@ -15,6 +15,7 @@ from pathlib import Path
 import dj_database_url
 import os
 from dotenv import load_dotenv
+import datetime
 
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
@@ -148,7 +149,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 JWT_AUTH = {
     # 'JWT_AUTH_COOKIE': 'dindinauth',
-    'JWT_ALLOW_REFRESH': True
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=15),
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
 }
 
 
