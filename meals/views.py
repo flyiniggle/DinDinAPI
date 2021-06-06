@@ -26,7 +26,6 @@ class MealList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-
 class MealDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MealSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -37,6 +36,8 @@ class MealDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         user = self.request.user
+        print(user)
         obj = get_object_or_404(self.get_queryset(), owner=user)
         self.check_object_permissions(self.request, obj)
+        print(obj)
         return obj
