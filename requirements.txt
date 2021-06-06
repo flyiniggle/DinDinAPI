@@ -15,7 +15,7 @@ idna==2.6
 itypes==1.1.0
 Jinja2==2.10
 Markdown==2.6.11
-MarkupSafe==1.0
+MarkupSafe==2.0.0
 pipetools==0.3.2
 psycopg2==2.7.4
 Pygments==2.2.0
